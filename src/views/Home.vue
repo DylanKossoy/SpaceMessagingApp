@@ -7,6 +7,8 @@ import Header from '../components/Header.vue'
         <nav>
             <RouterLink to="/join">Join</RouterLink>
         </nav>
+
+        <main><div>HEllo world</div></main>
     </Header>
 
     <main></main>
