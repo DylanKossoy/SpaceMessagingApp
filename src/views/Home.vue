@@ -1,11 +1,15 @@
 <script setup>
+import Header from '../components/Header.vue'
 </script>
- 
+
 <template>
-    <main>
-        Hello World!
-    </main>
+    <Header>
+        <nav>
+            <RouterLink to="/join">Join</RouterLink>
+        </nav>
+    </Header>
+
+    <main></main>
 </template>
- 
-<style scoped>
-</style>
+
+<style scoped></style>

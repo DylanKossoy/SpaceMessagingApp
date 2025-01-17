@@ -4,21 +4,22 @@ import Logo from './Logo.vue'
 </script>
 
 <template>
-  <header>
-    <div class="container">
-      <Logo />
-    </div>
-  </header>
+    <header>
+        <div class="container">
+            <Logo />
+            <slot></slot>
+        </div>
+    </header>
 </template>
 
 <style scoped>
 container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 :slotted(*) {
-  font-size: var(--fs-600);
+    font-size: var(--fs-600);
 }
 </style>
