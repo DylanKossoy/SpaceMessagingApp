@@ -1,4 +1,3 @@
-
 #app {
   max-width: 1280px;
   margin: 0 auto;
@@ -6,3 +5,29 @@
   font-weight: normal;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-image: url('/background.jpg');
+  background-size: cover;
+}
+
+:root {
+  --font-primary: 'Noto Sans', serif;
+  --font-nav: 'Noto Sans', serif;
+  --color-primary: rgba(244, 244, 244, 0.76);
+  --color-nav: rgba(244, 244, 244, 0.76);
+  --color-submit-button: rgba(255, 116, 3, 0.596);
+  --color-form-border: rgba(255, 116, 3, 0.596);
+}
+
+nav {
+  width: 300px;
+  font-family: var(--font-nav);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 40px;
+}
