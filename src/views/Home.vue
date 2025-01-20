@@ -6,12 +6,17 @@ import Header from '../components/Header.vue'
     <Header>
         <nav>
             <RouterLink to="/join">Join</RouterLink>
+            <RouterLink to="/signin">Sign In</RouterLink>
         </nav>
 
-        <main><div>HEllo world</div></main>
+        <main><div>Welcome!</div></main>
     </Header>
 
     <main></main>
 </template>
 
-<style scoped></style>
+<style scoped>
+:deep(a) {
+    text-decoration: none;
+}
+</style>

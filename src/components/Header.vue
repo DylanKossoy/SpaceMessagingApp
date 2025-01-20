@@ -1,5 +1,5 @@
 <script setup>
-import { Routerlink } from 'vue-router'
+import { RouterLink } from 'vue-router'
 import Logo from './Logo.vue'
 </script>
 
@@ -13,13 +13,8 @@ import Logo from './Logo.vue'
 </template>
 
 <style scoped>
-container {
+.container {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-}
-
-:slotted(*) {
-    font-size: var(--fs-600);
 }
 </style>
