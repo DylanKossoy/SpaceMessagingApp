@@ -1,11 +1,31 @@
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import Header from '../components/Header.vue'
+
+const router = useRouter()
 
 const check = (event) => {
     event.preventDefault()
 
     const inputs = document.querySelectorAll('form input')
+    let isFull = true
+
+    inputs.forEach((input) => {
+        if (!input.value.trim()) {
+            input.placeholder += ' **'
+            input.placeholder.style = 'red'
+            isFull = false
+            return
+        }
+    })
+
+    if (isFull) {
+        const firstName = document.querySelector('#firstName').value
+        localStorage.setItem('firstName', firstName)
+        router.push({
+            name: 'main',
+        })
+    }
 }
 </script>
 
@@ -101,6 +121,9 @@ input {
     font-size: 15px;
     padding-left: 0.5rem;
     font-family: var(--font-primary);
+    background: rgba(107, 105, 105, 0.226);
+    border: 1px solid var(--color-input-border);
+    color: var(--color-primary);
 }
 
 input::placeholder {

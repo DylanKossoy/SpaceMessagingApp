@@ -1,5 +1,29 @@
 <script setup>
 import Header from '@/components/Header.vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const checkFields = (event) => {
+    event.preventDefault()
+
+    const inputs = document.querySelectorAll('form input')
+    let isFull = true
+
+    inputs.forEach((input) => {
+        if (!input.value.trim()) {
+            input.placeholder += '**'
+            isFull = false
+            return
+        }
+    })
+
+    if (isFull) {
+        router.push({
+            name: 'main',
+        })
+    }
+}
 </script>
 
 <template>
@@ -24,7 +48,7 @@ import Header from '@/components/Header.vue'
                     required
                 />
                 <br />
-                <button type="submit">Sign In</button>
+                <button type="submit" @click="checkFields">Sign In</button>
             </form>
         </div>
     </main>
@@ -64,6 +88,9 @@ input {
     font-size: 15px;
     padding-left: 0.5rem;
     font-family: var(--font-primary);
+    background: rgba(107, 105, 105, 0.226);
+    border: 1px solid var(--color-input-border);
+    color: var(--color-primary);
 }
 
 input::placeholder {
