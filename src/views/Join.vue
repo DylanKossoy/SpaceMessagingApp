@@ -32,7 +32,7 @@ const check = (event) => {
 <template>
     <Header>
         <nav>
-            <RouterLink to="/home">Home</RouterLink>
+            <RouterLink to="/">Home</RouterLink>
             <RouterLink to="/signin">Sign in</RouterLink>
         </nav>
     </Header>

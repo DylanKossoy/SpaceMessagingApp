@@ -30,7 +30,7 @@ const checkFields = (event) => {
     <Header>
         <nav>
             <RouterLink to="/join">Join</RouterLink>
-            <RouterLink to="/home">Home</RouterLink>
+            <RouterLink to="/">Home</RouterLink>
         </nav>
     </Header>
 
