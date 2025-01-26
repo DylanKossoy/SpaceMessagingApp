@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink, useRouter } from 'vue-router'
+import emailValidator from 'email-validator'
 import Header from '../components/Header.vue'
 
 const router = useRouter()
@@ -10,16 +11,57 @@ const check = (event) => {
     const inputs = document.querySelectorAll('form input')
     let isFull = true
 
+    // check if inputs are empty
     inputs.forEach((input) => {
         if (!input.value.trim()) {
-            input.placeholder += ' **'
-            input.placeholder.style = 'red'
+            input.classList.add('empty')
+            input.addEventListener('animationend', () => {
+                input.classList.remove('empty')
+            })
             isFull = false
-            return
         }
     })
 
-    if (isFull) {
+    // check email with npm email-validator
+    const userEmail = document.querySelector('#userEmail').value
+    let emailPass = false
+
+    if (emailValidator.validate(userEmail)) {
+        emailPass = true
+    } else {
+        document.querySelector('#userEmail').classList.add('mismatch')
+        document.querySelector('#userEmail').addEventListener('animationend', () => {
+            document.querySelector('#userEmail').classList.remove('mismatch')
+        })
+        emailPass = false
+    }
+
+    const userPass = document.querySelector('#userPass')
+    const confirmPass = document.querySelector('#confirmPass')
+    let passMatch = false
+
+    // checks if passcodes are both the same
+    if (!userPass) {
+        passMatch = false
+    } else {
+        if (userPass.value.trim() === confirmPass.value.trim()) {
+            passMatch = true
+        } else {
+            userPass.classList.add('mismatch')
+            confirmPass.classList.add('mismatch')
+
+            userPass.addEventListener('animationend', () => {
+                userPass.classList.remove('mismatch')
+            })
+
+            confirmPass.addEventListener('animationend', () => {
+                confirmPass.classList.remove('mismatch')
+            })
+            passMatch = false
+        }
+    }
+
+    if (isFull && passMatch && emailPass) {
         const firstName = document.querySelector('#firstName').value
         localStorage.setItem('firstName', firstName)
         router.push({
@@ -40,49 +82,31 @@ const check = (event) => {
     <main>
         <div class="container">
             <form>
-                <input
-                    type="text"
-                    id="firstName"
-                    name="firstName"
-                    placeholder="Enter first name"
-                    required
-                />
-                <br />
-                <input
-                    type="text"
-                    id="lastName"
-                    name="lastName"
-                    placeholder="Enter last name"
-                    required
-                />
-                <br />
-                <input type="email" id="email" name="email" placeholder="Enter Email" required />
-                <br />
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="Create Username"
-                    required
-                />
-                <br />
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Create Password"
-                    required
-                />
-                <br />
-                <input
-                    type="password"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    placeholder="Confirm Password"
-                    required
-                />
-                <br />
-                <button type="submit" id="joinButton" @click="check">Join</button>
+                <div class="firstLast">
+                    <input type="text" id="firstName" name="firstName" placeholder="First Name" />
+                    <input type="text" id="lastName" name="lastName" placeholder="Last Name" />
+                </div>
+                <div class="user-info-container">
+                    <input
+                        type="email"
+                        id="userEmail"
+                        name="userEmail"
+                        placeholder="Email"
+                        required
+                    />
+                    <input type="text" id="username" name="username" placeholder="Username" />
+                    <input type="password" id="userPass" name="userPass" placeholder="Password" />
+                    <input
+                        type="password"
+                        id="confirmPass"
+                        name="confirmPass"
+                        placeholder="Confirm Password"
+                    />
+                </div>
+
+                <div class="button-container">
+                    <button id="submit" @click="check" type="submit">Submit</button>
+                </div>
             </form>
         </div>
     </main>
@@ -90,63 +114,79 @@ const check = (event) => {
 
 <style scoped>
 .container {
-    width: 100%;
-    height: 100%;
-    background: none;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 50px;
 }
 
 form {
     width: 400px;
     height: 500px;
-    background: rgba(137, 139, 144, 0.036);
-    backdrop-filter: blur(4px);
+    box-sizing: border-box;
+    background-color: rgba(81, 74, 74, 0.158);
+    backdrop-filter: blur(7px);
+    border: 2px solid var(--color-primary-orange);
+    border-radius: 20px;
+    padding: 1rem;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
-    border-radius: 30px;
-    border: 2px solid var(--color-form-border);
+    align-items: center;
+}
+
+.firstLast,
+.user-info-container {
+    display: flex;
+}
+
+.user-info-container {
+    flex-direction: column;
+}
+
+.firstLast input {
+    width: 145px;
+}
+
+.user-info-container input {
+    width: 325px;
 }
 
 input {
-    width: 300px;
-    height: 40px;
-    border-radius: 10px;
+    margin: 1rem;
+    height: 45px;
+    color: white;
     outline: none;
-    border: none;
+    border: 2px solid var(--color-primary-orange);
+    border-radius: 20px;
+    background: rgba(133, 120, 120, 0.156);
+    font-family: var(--font-header-nav);
+    box-sizing: border-box;
+    padding-left: 1rem;
     font-size: 15px;
-    padding-left: 0.5rem;
-    font-family: var(--font-primary);
-    background: rgba(107, 105, 105, 0.226);
-    border: 1px solid var(--color-input-border);
-    color: var(--color-primary);
 }
 
 input::placeholder {
-    font-size: 15px;
-    padding-left: 0.5rem;
-    font-family: var(--font-primary);
+    color: rgb(163, 151, 142);
 }
 
-button {
-    width: 150px;
-    height: 50px;
-    background: var(--color-submit-button);
-    border: none;
+input:focus {
+    background-color: rgba(114, 75, 54, 0.384);
+}
+
+#submit {
+    margin-top: 1rem;
+    border-radius: 20px;
     outline: none;
-    border-radius: 10px;
-    font-size: 20px;
-    margin: 1rem;
-    color: var(--color-primary);
+    border: none;
+    background: var(--color-primary-orange);
+    width: 150px;
+    height: 45px;
+    color: white;
+    font-size: 15px;
+    font-family: var(--font-header-nav);
     cursor: pointer;
-    transition: color 0.5s ease;
 }
 
-button:hover {
-    color: white;
+#submit:hover {
+    background-color: rgba(255, 116, 3, 0.391);
 }
 </style>

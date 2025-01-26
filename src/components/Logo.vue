@@ -10,10 +10,9 @@
 img {
     max-width: 125px;
     transform: rotate(45deg);
-    transition: animation 1s ease;
 }
 
 img {
-    animation: rocketship-animation 1s linear;
+    animation: rocketship-animation 20s infinite;
 }
 </style>
