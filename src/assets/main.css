@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
+
 #app {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem 3rem;
   font-weight: normal;
 }
 
@@ -18,31 +20,33 @@ body {
 }
 
 :root {
+  /* font variables */
+
+  --font-header-nav: 'Orbitron', serif;
   --font-primary: 'Noto Sans', serif;
   --font-nav: 'Noto Sans', serif;
+
+  /* color variables */
   --color-primary: rgba(244, 244, 244, 0.76);
-  --color-nav: rgba(244, 244, 244, 0.76);
+  --color-nav-text: rgba(244, 244, 244, 0.76);
+
+  --color-primary-orange: rgba(255, 116, 3, 0.596);
   --color-submit-button: rgba(255, 116, 3, 0.596);
   --color-form-border: rgba(255, 116, 3, 0.596);
   --color-input-border: rgba(255, 116, 3, 0.596);
-
 }
 
-nav {
-  width: 300px;
-  font-family: var(--font-nav);
+.header-nav-container nav {
   display: flex;
+  width: 300px;
   align-items: center;
-  justify-content: space-between;
-  font-size: 40px;
+  gap: 3rem;
+  justify-content: flex-end;
 }
 
 @media (max-width: 600px) {
-
-
   nav {
     font-size: 30px;
-
   }
 
   input::placeholder {
@@ -55,11 +59,8 @@ nav {
 }
 
 @media (max-width: 500px) {
-
-
   nav {
     font-size: 20px;
-
   }
 
   input::placeholder {
@@ -69,4 +70,7 @@ nav {
   nav a {
     margin: 1.5rem;
   }
+}
+
+@keyframes rocketship-animation {
 }

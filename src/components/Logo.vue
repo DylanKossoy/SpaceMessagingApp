@@ -10,10 +10,10 @@
 img {
     max-width: 125px;
     transform: rotate(45deg);
-    transition: transform 1s ease;
+    transition: animation 1s ease;
 }
 
-img:hover {
-    transform: rotate(405deg);
+img {
+    animation: rocketship-animation 1s linear;
 }
 </style>
