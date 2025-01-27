@@ -21,26 +21,24 @@ import Header from '../components/Header.vue'
 
 <style scoped>
 .container {
-    width: 100%;
-    height: 100%;
-    background: none;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 50px;
 }
 
 .message-container {
     width: 400px;
     height: 500px;
-    background: rgba(137, 139, 144, 0.036);
-    backdrop-filter: blur(4px);
+    box-sizing: border-box;
+    background-color: rgba(81, 74, 74, 0.158);
+    backdrop-filter: blur(7px);
+    border: 2px solid var(--color-primary-orange);
+    border-radius: 20px;
+    padding: 1rem;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
-    border-radius: 30px;
-    border: 2px solid var(--color-form-border);
-    color: var(--color-form-border);
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary-orange);
 }
 </style>

@@ -7,6 +7,8 @@ const router = useRouter()
 
 const check = (event) => {
     event.preventDefault()
+    const validText = document.querySelector('.valid-message')
+    const errorText = document.querySelector('.error-message')
 
     const inputs = document.querySelectorAll('form input')
     let isFull = true
@@ -18,6 +20,7 @@ const check = (event) => {
             input.addEventListener('animationend', () => {
                 input.classList.remove('empty')
             })
+
             isFull = false
         }
     })
@@ -67,6 +70,22 @@ const check = (event) => {
         router.push({
             name: 'main',
         })
+    } else {
+        if (!isFull) {
+            errorText.innerHTML = '* Empty Fields *'
+            validText.style.display = 'none'
+            errorText.style.display = 'flex'
+        } else if (!emailPass) {
+            errorText.innerHTML = '* Not Valid Email *'
+            validText.style.display = 'none'
+            errorText.style.display = 'flex'
+        } else if (!passMatch) {
+            errorText.innerHTML = '* Password does not match *'
+            validText.style.display = 'none'
+            errorText.style.display = 'flex'
+        } else {
+            validText.style.display = 'flex'
+        }
     }
 }
 </script>
@@ -82,6 +101,10 @@ const check = (event) => {
     <main>
         <div class="container">
             <form>
+                <div class="error-container">
+                    <span class="valid-message">***</span>
+                    <span class="error-message"></span>
+                </div>
                 <div class="firstLast">
                     <input type="text" id="firstName" name="firstName" placeholder="First Name" />
                     <input type="text" id="lastName" name="lastName" placeholder="Last Name" />
@@ -105,7 +128,7 @@ const check = (event) => {
                 </div>
 
                 <div class="button-container">
-                    <button id="submit" @click="check" type="submit">Submit</button>
+                    <button id="submit" @click="check">Join</button>
                 </div>
             </form>
         </div>
@@ -188,5 +211,26 @@ input:focus {
 
 #submit:hover {
     background-color: rgba(255, 116, 3, 0.391);
+}
+
+.error-container {
+    width: 300px;
+    height: 40px;
+    padding: 0.0125rem;
+    visibility: visible;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+}
+
+.error-message {
+    display: none;
+    color: rgb(247, 67, 67);
+}
+
+.valid-message {
+    display: flex;
+    color: rgb(66, 229, 66);
 }
 </style>
