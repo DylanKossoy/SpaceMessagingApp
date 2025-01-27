@@ -143,7 +143,7 @@ form {
 }
 
 .firstLast input {
-    width: 145px;
+    width: 153px;
 }
 
 .user-info-container input {
@@ -151,7 +151,7 @@ form {
 }
 
 input {
-    margin: 1rem;
+    margin: 0.7rem 0.5rem;
     height: 45px;
     color: white;
     outline: none;

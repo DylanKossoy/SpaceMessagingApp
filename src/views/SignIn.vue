@@ -1,10 +1,11 @@
 <script setup>
 import Header from '@/components/Header.vue'
 import { useRouter } from 'vue-router'
+import emailValidator from 'email-validator'
 
 const router = useRouter()
 
-const checkFields = (event) => {
+const check = (event) => {
     event.preventDefault()
 
     const inputs = document.querySelectorAll('form input')
@@ -12,13 +13,29 @@ const checkFields = (event) => {
 
     inputs.forEach((input) => {
         if (!input.value.trim()) {
-            input.placeholder += '**'
             isFull = false
-            return
+            input.classList.add('empty')
+            input.addEventListener('animationend', () => {
+                input.classList.remove('empty')
+            })
         }
     })
 
-    if (isFull) {
+    // check valid email
+    const userEmail = document.querySelector('#userEmail').value
+    let emailPass = false
+
+    if (emailValidator.validate(userEmail)) {
+        emailPass = true
+    } else {
+        document.querySelector('#userEmail').classList.add('mismatch')
+        document.querySelector('#userEmail').addEventListener('animationend', () => {
+            document.querySelector('#userEmail').classList.remove('mismatch')
+        })
+        emailPass = false
+    }
+
+    if (isFull && emailPass) {
         router.push({
             name: 'main',
         })
@@ -37,18 +54,14 @@ const checkFields = (event) => {
     <main>
         <div class="container">
             <form>
-                <input type="text" id="username" name="username" placeholder="Username" required />
-                <br />
+                <div class="input-signin">
+                    <input type="email" id="userEmail" placeholder="Email" />
+                    <input type="password" id="userPass" placeholder="Password" />
+                </div>
 
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Password"
-                    required
-                />
-                <br />
-                <button type="submit" @click="checkFields">Sign In</button>
+                <div class="button-signin">
+                    <button class="signin-button" @click="check">Sign in</button>
+                </div>
             </form>
         </div>
     </main>
@@ -56,65 +69,70 @@ const checkFields = (event) => {
 
 <style scoped>
 .container {
-    width: 100%;
-    height: 100%;
-    background: none;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 50px;
 }
 
 form {
     width: 400px;
     height: 500px;
-    background: rgba(137, 139, 144, 0.036);
-    backdrop-filter: blur(4px);
+    box-sizing: border-box;
+    background-color: rgba(81, 74, 74, 0.158);
+    backdrop-filter: blur(7px);
+    border: 2px solid var(--color-primary-orange);
+    border-radius: 20px;
+    padding: 1rem;
     display: flex;
-    justify-content: end;
-    align-items: center;
     flex-direction: column;
-    border-radius: 30px;
-    border: 2px solid var(--color-form-border);
+    align-items: center;
+    justify-content: center;
 }
 
-input {
-    width: 300px;
-    height: 50px;
-    border-radius: 10px;
-    outline: none;
-    border: none;
-    margin: 1rem;
-    font-size: 15px;
-    padding-left: 0.5rem;
-    font-family: var(--font-primary);
-    background: rgba(107, 105, 105, 0.226);
-    border: 1px solid var(--color-input-border);
-    color: var(--color-primary);
+.input-signin {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 325px;
 }
 
 input::placeholder {
-    font-size: 15px;
-    padding-left: 0.5rem;
-    font-family: var(--font-primary);
+    color: rgb(163, 151, 142);
 }
 
-button {
-    width: 150px;
-    height: 50px;
-    background: var(--color-submit-button);
-    border: none;
-    outline: none;
-    border-radius: 10px;
-    font-size: 20px;
-    color: var(--color-primary);
-    margin: 3rem;
-    margin-top: 7rem;
-    cursor: pointer;
-    transition: color 0.5s ease;
+input:focus {
+    background-color: rgba(114, 75, 54, 0.384);
 }
 
-button:hover {
+input {
+    margin: 1rem;
+    height: 45px;
     color: white;
+    outline: none;
+    border: 2px solid var(--color-primary-orange);
+    border-radius: 20px;
+    background: rgba(133, 120, 120, 0.156);
+    font-family: var(--font-header-nav);
+    box-sizing: border-box;
+    padding-left: 1rem;
+    font-size: 15px;
+}
+
+.signin-button {
+    margin-top: 3rem;
+    border-radius: 20px;
+    outline: none;
+    border: none;
+    background: var(--color-primary-orange);
+    width: 150px;
+    height: 45px;
+    color: white;
+    font-size: 15px;
+    font-family: var(--font-header-nav);
+    cursor: pointer;
+}
+
+.signin-button:hover {
+    background-color: rgba(255, 116, 3, 0.391);
 }
 </style>
