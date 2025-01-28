@@ -5,8 +5,15 @@ import emailValidator from 'email-validator'
 
 const router = useRouter()
 
+//async function that fetches api
+
+async function signIn() {}
+
 const check = (event) => {
     event.preventDefault()
+
+    const validText = document.querySelector('.valid-message')
+    const errorText = document.querySelector('.error-message')
 
     const inputs = document.querySelectorAll('form input')
     let isFull = true
@@ -22,23 +29,30 @@ const check = (event) => {
     })
 
     // check valid email
-    const userEmail = document.querySelector('#userEmail').value
-    let emailPass = false
+    const email = document.querySelector('#userEmail').value
 
-    if (emailValidator.validate(userEmail)) {
-        emailPass = true
-    } else {
+    const emailPass = emailValidator.validate(email)
+
+    if (!emailPass) {
         document.querySelector('#userEmail').classList.add('mismatch')
         document.querySelector('#userEmail').addEventListener('animationend', () => {
             document.querySelector('#userEmail').classList.remove('mismatch')
         })
-        emailPass = false
     }
 
     if (isFull && emailPass) {
-        router.push({
-            name: 'main',
-        })
+    } else {
+        if (!isFull) {
+            errorText.innerHTML = '* Empty Fields *'
+            validText.style.display = 'none'
+            errorText.style.display = 'flex'
+        } else if (!emailPass) {
+            errorText.innerHTML = '* Not Valid Email *'
+            validText.style.display = 'none'
+            errorText.style.display = 'flex'
+        } else {
+            validText.style.display = 'flex'
+        }
     }
 }
 </script>
@@ -54,6 +68,10 @@ const check = (event) => {
     <main>
         <div class="container">
             <form>
+                <div class="error-container">
+                    <span class="valid-message">***</span>
+                    <span class="error-message"></span>
+                </div>
                 <div class="input-signin">
                     <input type="email" id="userEmail" placeholder="Email" />
                     <input type="password" id="userPass" placeholder="Password" />
@@ -134,5 +152,19 @@ input {
 
 .signin-button:hover {
     background-color: rgba(255, 116, 3, 0.391);
+}
+
+.error-container {
+    margin: 1rem;
+}
+
+.valid-message {
+    color: var(--color-valid-message);
+    display: flex;
+}
+
+.error-message {
+    color: var(--color-error-message);
+    display: none;
 }
 </style>

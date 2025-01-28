@@ -5,8 +5,54 @@ import Header from '../components/Header.vue'
 
 const router = useRouter()
 
+async function createUserJoin(firstName, lastName, username, password, email) {
+    // user information
+
+    const data = {
+        email: email,
+        userName: username,
+        password: password,
+        firstName: firstName,
+        lastName: lastName,
+    }
+
+    //url
+    const url = 'https://hap-app-api.azurewebsites.net/user'
+
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    }
+
+    let response = await fetch(url, options)
+
+    if (response.status === 201) {
+        const data = await response.json()
+
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('firstName', data.user.firstName)
+
+        router.push({
+            name: 'main',
+        })
+    } else if (response.status === 400) {
+        console.log('invalid email or password')
+    }
+}
+
 const check = (event) => {
     event.preventDefault()
+
+    const firstName = document.querySelector('#firstName')
+    const lastName = document.querySelector('#lastName')
+    const email = document.querySelector('#userEmail')
+    const username = document.querySelector('#username')
+    const password = document.querySelector('#userPass')
+    const confirmPassword = document.querySelector('#confirmPass')
+
     const validText = document.querySelector('.valid-message')
     const errorText = document.querySelector('.error-message')
 
@@ -25,51 +71,16 @@ const check = (event) => {
         }
     })
 
-    // check email with npm email-validator
-    const userEmail = document.querySelector('#userEmail').value
-    let emailPass = false
+    //check if valid email
+    const emailPass = emailValidator.validate(email.value)
 
-    if (emailValidator.validate(userEmail)) {
-        emailPass = true
-    } else {
-        document.querySelector('#userEmail').classList.add('mismatch')
-        document.querySelector('#userEmail').addEventListener('animationend', () => {
-            document.querySelector('#userEmail').classList.remove('mismatch')
-        })
-        emailPass = false
-    }
+    // checks if passcodes are both the same and at least 8 characters
 
-    const userPass = document.querySelector('#userPass')
-    const confirmPass = document.querySelector('#confirmPass')
-    let passMatch = false
+    const passMatch = password.value === confirmPassword.value
+    const passLength = password.value.length >= 8
 
-    // checks if passcodes are both the same
-    if (!userPass) {
-        passMatch = false
-    } else {
-        if (userPass.value.trim() === confirmPass.value.trim()) {
-            passMatch = true
-        } else {
-            userPass.classList.add('mismatch')
-            confirmPass.classList.add('mismatch')
-
-            userPass.addEventListener('animationend', () => {
-                userPass.classList.remove('mismatch')
-            })
-
-            confirmPass.addEventListener('animationend', () => {
-                confirmPass.classList.remove('mismatch')
-            })
-            passMatch = false
-        }
-    }
-
-    if (isFull && passMatch && emailPass) {
-        const firstName = document.querySelector('#firstName').value
-        localStorage.setItem('firstName', firstName)
-        router.push({
-            name: 'main',
-        })
+    if (isFull && passMatch && emailPass && passLength) {
+        createUserJoin(firstName.value, lastName.value, username.value, password.value, email.value)
     } else {
         if (!isFull) {
             errorText.innerHTML = '* Empty Fields *'
@@ -79,12 +90,39 @@ const check = (event) => {
             errorText.innerHTML = '* Not Valid Email *'
             validText.style.display = 'none'
             errorText.style.display = 'flex'
+            email.classList.add('mismatch')
+            email.addEventListener('animationend', () => {
+                email.classList.remove('mismatch')
+            })
+        } else if (!passLength) {
+            errorText.innerHTML = '* Password must be 8 characters *'
+            validText.style.display = 'none'
+            errorText.style.display = 'flex'
+            password.classList.add('mismatch')
+            confirmPassword.classList.add('mismatch')
+            password.addEventListener('animationend', () => {
+                password.classList.remove('mismatch')
+            })
+
+            confirmPassword.addEventListener('animationend', () => {
+                confirmPassword.classList.remove('mismatch')
+            })
         } else if (!passMatch) {
             errorText.innerHTML = '* Password does not match *'
             validText.style.display = 'none'
             errorText.style.display = 'flex'
+            password.classList.add('mismatch')
+            confirmPassword.classList.add('mismatch')
+            password.addEventListener('animationend', () => {
+                password.classList.remove('mismatch')
+            })
+
+            confirmPassword.addEventListener('animationend', () => {
+                confirmPassword.classList.remove('mismatch')
+            })
         } else {
             validText.style.display = 'flex'
+            localStorage.setItem('userName', username.value)
         }
     }
 }
@@ -226,11 +264,11 @@ input:focus {
 
 .error-message {
     display: none;
-    color: rgb(247, 67, 67);
+    color: var(--color-error-message);
 }
 
 .valid-message {
     display: flex;
-    color: rgb(66, 229, 66);
+    color: var(--color-valid-message);
 }
 </style>

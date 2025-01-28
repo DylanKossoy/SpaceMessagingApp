@@ -33,6 +33,8 @@ body {
   --color-submit-button: rgba(255, 116, 3, 0.596);
   --color-form-border: rgba(255, 116, 3, 0.596);
   --color-input-border: rgba(255, 116, 3, 0.596);
+  --color-valid-message: rgb(66, 229, 66);
+  --color-error-message: rgb(247, 67, 67);
 }
 
 .header-nav-container nav {
