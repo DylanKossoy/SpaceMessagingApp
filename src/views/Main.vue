@@ -4,8 +4,6 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-
-
 const firstName = localStorage.getItem('firstName')
 
 async function signOut(event) {
@@ -16,7 +14,7 @@ async function signOut(event) {
     const url = 'https://hap-app-api.azurewebsites.net/user/logout'
 
     const options = {
-        methon: 'POST',
+        method: 'POST',
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -25,8 +23,6 @@ async function signOut(event) {
     let response = await fetch(url, options)
 
     if (response.ok) {
-
-
         if (response.status === 200) {
             localStorage.removeItem('token')
             localStorage.removeItem('firstName')

@@ -53,8 +53,8 @@ const check = (event) => {
     const password = document.querySelector('#userPass')
     const confirmPassword = document.querySelector('#confirmPass')
 
-    const validText = document.querySelector('.valid-message')
-    const errorText = document.querySelector('.error-message')
+    const validText = document.querySelector('#validMessage')
+    const errorText = document.querySelector('#errorMessage')
 
     const inputs = document.querySelectorAll('form input')
     let isFull = true
@@ -140,8 +140,8 @@ const check = (event) => {
         <div class="container">
             <form>
                 <div class="error-container">
-                    <span class="valid-message">***</span>
-                    <span class="error-message"></span>
+                    <span class="validMessage" id="validMessage">***</span>
+                    <span class="errorMessage" id="errorMessage"></span>
                 </div>
                 <div class="firstLast">
                     <input type="text" id="firstName" name="firstName" placeholder="First Name" />
@@ -262,12 +262,12 @@ input:focus {
     font-size: 15px;
 }
 
-.error-message {
+.errorMessage {
     display: none;
     color: var(--color-error-message);
 }
 
-.valid-message {
+.validMessage {
     display: flex;
     color: var(--color-valid-message);
 }

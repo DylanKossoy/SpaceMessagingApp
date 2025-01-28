@@ -5,46 +5,39 @@ import emailValidator from 'email-validator'
 
 const router = useRouter()
 
-const validText = document.querySelector('.valid-message')
-const errorText = document.querySelector('.error-message')
-
-
-
-
-
-
-
+const validText = document.querySelector('#validMessage')
+const errorText = document.querySelector('#errorMessage')
 
 //async function that fetches
 
 async function signIn(email, password) {
-
     const data = { email, password }
 
-    const url = 'http://hap-app-api.azurewebsites.net/user/login'
+    console.log(email, password)
+
+    const url = 'https://hap-app-api.azurewebsites.net/user/login'
 
     const options = {
-        method: "POST",
+        method: 'POST',
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
     }
-
 
     let response = await fetch(url, options)
 
-
-    if(response.status === 200) {
+    if (response.status === 200) {
         const data = await response.json()
 
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('firstName', data.user.firstName)
 
-        console.log(data);
         router.push({
-            name: 'main'
+            name: 'main',
         })
-    } else if(response.status === 400) {
-        errorText.innerHTML = '* Invalid User *';
+    } else if (response.status === 400) {
+        errorText.innerHTML = '* Invalid User *'
         errorText.style.display = 'flex'
         validText.style.display = 'none'
     }
@@ -52,7 +45,6 @@ async function signIn(email, password) {
 
 const check = (event) => {
     event.preventDefault()
-
 
     const inputs = document.querySelectorAll('form input')
     let isFull = true
@@ -74,7 +66,7 @@ const check = (event) => {
     const emailPass = emailValidator.validate(email.value)
 
     if (isFull && emailPass) {
-        signIn(email.value, password.value )
+        signIn(email.value, password.value)
     } else {
         if (!isFull) {
             errorText.innerHTML = '* Empty Fields *'
@@ -108,12 +100,12 @@ const check = (event) => {
         <div class="container">
             <form>
                 <div class="error-container">
-                    <span class="valid-message">***</span>
-                    <span class="error-message"></span>
+                    <span class="validMessage" id="validMessage">***</span>
+                    <span class="errorMessage" id="errorMessage"></span>
                 </div>
                 <div class="input-signin">
-                    <input type="email" id="userEmail" placeholder="Email" />
-                    <input type="password" id="userPass" placeholder="Password" />
+                    <input type="email" class="userEmail" id="userEmail" placeholder="Email" />
+                    <input type="password" class="userPass" id="userPass" placeholder="Password" />
                 </div>
 
                 <div class="button-signin">
@@ -197,12 +189,12 @@ input {
     margin: 1rem;
 }
 
-.valid-message {
+#validMessage {
     color: var(--color-valid-message);
     display: flex;
 }
 
-.error-message {
+#errorMessage {
     color: var(--color-error-message);
     display: none;
 }
