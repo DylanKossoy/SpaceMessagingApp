@@ -1,19 +1,19 @@
 <script setup>
 import Header from '@/components/Header.vue'
 import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 import emailValidator from 'email-validator'
 
 const router = useRouter()
 
-const validText = document.querySelector('#validMessage')
-const errorText = document.querySelector('#errorMessage')
+const validText = ref('***')
+const errorText = ref('')
+
 
 //async function that fetches
 
 async function signIn(email, password) {
     const data = { email, password }
-
-    console.log(email, password)
 
     const url = 'https://hap-app-api.azurewebsites.net/user/login'
 
@@ -37,10 +37,20 @@ async function signIn(email, password) {
             name: 'main',
         })
     } else if (response.status === 400) {
-        errorText.innerHTML = '* Invalid User *'
-        errorText.style.display = 'flex'
-        validText.style.display = 'none'
+        validText.value = ''
+        errorText.value = '* Invalid User *'
+
+        const inputs = document.querySelectorAll('form input')
+
+        inputs.forEach((input) => {
+            input.classList.add('mismatch')
+            input.addEventListener('animationend', () => {
+                input.classList.remove('mismatch')
+            })
+        })
+
     }
+
 }
 
 const check = (event) => {
@@ -51,11 +61,11 @@ const check = (event) => {
 
     inputs.forEach((input) => {
         if (!input.value.trim()) {
-            isFull = false
             input.classList.add('empty')
             input.addEventListener('animationend', () => {
                 input.classList.remove('empty')
             })
+            isFull = false;
         }
     })
 
@@ -68,21 +78,17 @@ const check = (event) => {
     if (isFull && emailPass) {
         signIn(email.value, password.value)
     } else {
+        validText.value = ''
         if (!isFull) {
-            errorText.innerHTML = '* Empty Fields *'
-            validText.style.display = 'none'
-            errorText.style.display = 'flex'
+            errorText.value = '* Empty Fields *'
+
         } else if (!emailPass) {
-            errorText.innerHTML = '* Not Valid Email *'
-            validText.style.display = 'none'
-            errorText.style.display = 'flex'
+            errorText.value = '* Not Valid Email *'
 
             email.classList.add('mismatch')
             email.addEventListener('animationend', () => {
                 email.classList.remove('mismatch')
             })
-        } else {
-            validText.style.display = 'flex'
         }
     }
 }
@@ -100,8 +106,8 @@ const check = (event) => {
         <div class="container">
             <form>
                 <div class="error-container">
-                    <span class="validMessage" id="validMessage">***</span>
-                    <span class="errorMessage" id="errorMessage"></span>
+                    <span class="validText" v-if="validText">{{ validText }}</span>
+                    <span class="errorText" v-if="errorText">{{ errorText }}</span>
                 </div>
                 <div class="input-signin">
                     <input type="email" class="userEmail" id="userEmail" placeholder="Email" />
@@ -189,13 +195,12 @@ input {
     margin: 1rem;
 }
 
-#validMessage {
+.validText {
     color: var(--color-valid-message);
-    display: flex;
 }
 
-#errorMessage {
+.errorText {
     color: var(--color-error-message);
-    display: none;
+
 }
 </style>

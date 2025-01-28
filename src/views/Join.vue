@@ -1,22 +1,24 @@
 <script setup>
+import { ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import emailValidator from 'email-validator'
 import Header from '../components/Header.vue'
 
 const router = useRouter()
 
-async function createUserJoin(firstName, lastName, username, password, email) {
-    // user information
+// Reactive state variables for toggling messages
+const errorMessage = ref('')
+const validMessage = ref('***')
 
+async function createUserJoin(firstName, lastName, username, password, email) {
     const data = {
-        email: email,
+        email,
         userName: username,
-        password: password,
-        firstName: firstName,
-        lastName: lastName,
+        password,
+        firstName,
+        lastName,
     }
 
-    //url
     const url = 'https://hap-app-api.azurewebsites.net/user'
 
     const options = {
@@ -27,7 +29,7 @@ async function createUserJoin(firstName, lastName, username, password, email) {
         body: JSON.stringify(data),
     }
 
-    let response = await fetch(url, options)
+    const response = await fetch(url, options)
 
     if (response.status === 201) {
         const data = await response.json()
@@ -39,7 +41,7 @@ async function createUserJoin(firstName, lastName, username, password, email) {
             name: 'main',
         })
     } else if (response.status === 400) {
-        console.log('invalid email or password')
+        errorMessage.value = 'Invalid email or password'
     }
 }
 
@@ -53,76 +55,59 @@ const check = (event) => {
     const password = document.querySelector('#userPass')
     const confirmPassword = document.querySelector('#confirmPass')
 
-    const validText = document.querySelector('#validMessage')
-    const errorText = document.querySelector('#errorMessage')
-
     const inputs = document.querySelectorAll('form input')
     let isFull = true
 
-    // check if inputs are empty
+    // Check if inputs are empty
     inputs.forEach((input) => {
         if (!input.value.trim()) {
             input.classList.add('empty')
             input.addEventListener('animationend', () => {
                 input.classList.remove('empty')
             })
-
             isFull = false
         }
     })
 
-    //check if valid email
+    // Validate email
     const emailPass = emailValidator.validate(email.value)
 
-    // checks if passcodes are both the same and at least 8 characters
-
+    // Validate passwords
     const passMatch = password.value === confirmPassword.value
     const passLength = password.value.length >= 8
 
-    if (isFull && passMatch && emailPass && passLength) {
+    if (isFull && emailPass && passMatch && passLength) {
         createUserJoin(firstName.value, lastName.value, username.value, password.value, email.value)
     } else {
+        validMessage.value = ''
         if (!isFull) {
-            errorText.innerHTML = '* Empty Fields *'
-            validText.style.display = 'none'
-            errorText.style.display = 'flex'
+            errorMessage.value = '* Empty Fields *'
         } else if (!emailPass) {
-            errorText.innerHTML = '* Not Valid Email *'
-            validText.style.display = 'none'
-            errorText.style.display = 'flex'
+            errorMessage.value = '* Not Valid Email *'
             email.classList.add('mismatch')
             email.addEventListener('animationend', () => {
                 email.classList.remove('mismatch')
             })
         } else if (!passLength) {
-            errorText.innerHTML = '* Password must be 8 characters *'
-            validText.style.display = 'none'
-            errorText.style.display = 'flex'
+            errorMessage.value = '* Password must be at least 8 characters *'
             password.classList.add('mismatch')
             confirmPassword.classList.add('mismatch')
             password.addEventListener('animationend', () => {
                 password.classList.remove('mismatch')
             })
-
             confirmPassword.addEventListener('animationend', () => {
                 confirmPassword.classList.remove('mismatch')
             })
         } else if (!passMatch) {
-            errorText.innerHTML = '* Password does not match *'
-            validText.style.display = 'none'
-            errorText.style.display = 'flex'
+            errorMessage.value = '* Passwords do not match *'
             password.classList.add('mismatch')
             confirmPassword.classList.add('mismatch')
             password.addEventListener('animationend', () => {
                 password.classList.remove('mismatch')
             })
-
             confirmPassword.addEventListener('animationend', () => {
                 confirmPassword.classList.remove('mismatch')
             })
-        } else {
-            validText.style.display = 'flex'
-            localStorage.setItem('userName', username.value)
         }
     }
 }
@@ -140,8 +125,8 @@ const check = (event) => {
         <div class="container">
             <form>
                 <div class="error-container">
-                    <span class="validMessage" id="validMessage">***</span>
-                    <span class="errorMessage" id="errorMessage"></span>
+                    <span v-if="validMessage" class="validMessage">{{ validMessage }}</span>
+                    <span v-if="errorMessage" class="errorMessage">{{ errorMessage }}</span>
                 </div>
                 <div class="firstLast">
                     <input type="text" id="firstName" name="firstName" placeholder="First Name" />
@@ -263,12 +248,10 @@ input:focus {
 }
 
 .errorMessage {
-    display: none;
     color: var(--color-error-message);
 }
 
 .validMessage {
-    display: flex;
     color: var(--color-valid-message);
 }
 </style>
