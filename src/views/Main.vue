@@ -4,14 +4,40 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
+
+
 const firstName = localStorage.getItem('firstName')
 
-function signOut(e) {
-    console.log(e)
-    console.log('clicked')
-    router.push({
-        name: 'home',
-    })
+async function signOut(event) {
+    event.preventDefault()
+
+    const token = localStorage.getItem('token')
+
+    const url = 'https://hap-app-api.azurewebsites.net/user/logout'
+
+    const options = {
+        methon: 'POST',
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    let response = await fetch(url, options)
+
+    if (response.ok) {
+
+
+        if (response.status === 200) {
+            localStorage.removeItem('token')
+            localStorage.removeItem('firstName')
+
+            router.push({
+                name: 'home',
+            })
+        }
+    } else {
+        console.log('HTTP-Error: ' + response.status)
+    }
 }
 </script>
 

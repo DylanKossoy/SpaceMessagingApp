@@ -5,15 +5,54 @@ import emailValidator from 'email-validator'
 
 const router = useRouter()
 
-//async function that fetches api
+const validText = document.querySelector('.valid-message')
+const errorText = document.querySelector('.error-message')
 
-async function signIn() {}
+
+
+
+
+
+
+
+//async function that fetches
+
+async function signIn(email, password) {
+
+    const data = { email, password }
+
+    const url = 'http://hap-app-api.azurewebsites.net/user/login'
+
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+    }
+
+
+    let response = await fetch(url, options)
+
+
+    if(response.status === 200) {
+        const data = await response.json()
+
+
+        console.log(data);
+        router.push({
+            name: 'main'
+        })
+    } else if(response.status === 400) {
+        errorText.innerHTML = '* Invalid User *';
+        errorText.style.display = 'flex'
+        validText.style.display = 'none'
+    }
+}
 
 const check = (event) => {
     event.preventDefault()
 
-    const validText = document.querySelector('.valid-message')
-    const errorText = document.querySelector('.error-message')
 
     const inputs = document.querySelectorAll('form input')
     let isFull = true
@@ -29,18 +68,13 @@ const check = (event) => {
     })
 
     // check valid email
-    const email = document.querySelector('#userEmail').value
+    const email = document.querySelector('#userEmail')
+    const password = document.querySelector('#userPass')
 
-    const emailPass = emailValidator.validate(email)
-
-    if (!emailPass) {
-        document.querySelector('#userEmail').classList.add('mismatch')
-        document.querySelector('#userEmail').addEventListener('animationend', () => {
-            document.querySelector('#userEmail').classList.remove('mismatch')
-        })
-    }
+    const emailPass = emailValidator.validate(email.value)
 
     if (isFull && emailPass) {
+        signIn(email.value, password.value )
     } else {
         if (!isFull) {
             errorText.innerHTML = '* Empty Fields *'
@@ -50,6 +84,11 @@ const check = (event) => {
             errorText.innerHTML = '* Not Valid Email *'
             validText.style.display = 'none'
             errorText.style.display = 'flex'
+
+            email.classList.add('mismatch')
+            email.addEventListener('animationend', () => {
+                email.classList.remove('mismatch')
+            })
         } else {
             validText.style.display = 'flex'
         }
