@@ -10,6 +10,19 @@ const router = useRouter()
 const errorMessage = ref('')
 const validMessage = ref('***')
 
+const firstName = ref('')
+const lastName = ref('')
+const username = ref('')
+const password = ref('')
+const email = ref('')
+const confirmPassword = ref('')
+
+const emailInput = ref('')
+const passwordInput = ref('')
+const confirmPasswordInput = ref('')
+
+const inputs = ref([])
+
 async function createUserJoin(firstName, lastName, username, password, email) {
     const data = {
         email,
@@ -48,13 +61,6 @@ async function createUserJoin(firstName, lastName, username, password, email) {
 const check = (event) => {
     event.preventDefault()
 
-    const firstName = document.querySelector('#firstName')
-    const lastName = document.querySelector('#lastName')
-    const email = document.querySelector('#userEmail')
-    const username = document.querySelector('#username')
-    const password = document.querySelector('#userPass')
-    const confirmPassword = document.querySelector('#confirmPass')
-
     const inputs = document.querySelectorAll('form input')
     let isFull = true
 
@@ -84,29 +90,29 @@ const check = (event) => {
             errorMessage.value = '* Empty Fields *'
         } else if (!emailPass) {
             errorMessage.value = '* Not Valid Email *'
-            email.classList.add('mismatch')
-            email.addEventListener('animationend', () => {
-                email.classList.remove('mismatch')
+            emailInput.value.classList.add('mismatch')
+            emailInput.value.addEventListener('animationend', () => {
+                emailInput.value.classList.remove('mismatch')
             })
         } else if (!passLength) {
             errorMessage.value = '* Password must be at least 8 characters *'
-            password.classList.add('mismatch')
-            confirmPassword.classList.add('mismatch')
-            password.addEventListener('animationend', () => {
-                password.classList.remove('mismatch')
+            passwordInput.value.classList.add('mismatch')
+            confirmPasswordInput.value.classList.add('mismatch')
+            passwordInput.value.addEventListener('animationend', () => {
+                passwordInput.value.classList.remove('mismatch')
             })
-            confirmPassword.addEventListener('animationend', () => {
-                confirmPassword.classList.remove('mismatch')
+            confirmPasswordInput.value.addEventListener('animationend', () => {
+                confirmPasswordInput.value.classList.remove('mismatch')
             })
         } else if (!passMatch) {
             errorMessage.value = '* Passwords do not match *'
-            password.classList.add('mismatch')
-            confirmPassword.classList.add('mismatch')
-            password.addEventListener('animationend', () => {
-                password.classList.remove('mismatch')
+            passwordInput.value.classList.add('mismatch')
+            confirmPasswordInput.value.classList.add('mismatch')
+            passwordInput.value.addEventListener('animationend', () => {
+                passwordInput.value.classList.remove('mismatch')
             })
-            confirmPassword.addEventListener('animationend', () => {
-                confirmPassword.classList.remove('mismatch')
+            confirmPasswordInput.value.addEventListener('animationend', () => {
+                confirmPasswordInput.value.classList.remove('mismatch')
             })
         }
     }
@@ -129,21 +135,50 @@ const check = (event) => {
                     <span v-if="errorMessage" class="errorMessage">{{ errorMessage }}</span>
                 </div>
                 <div class="firstLast">
-                    <input type="text" id="firstName" name="firstName" placeholder="First Name" />
-                    <input type="text" id="lastName" name="lastName" placeholder="Last Name" />
+                    <input
+                        type="text"
+                        v-model="firstName"
+                        id="firstName"
+                        name="firstName"
+                        placeholder="First Name"
+                    />
+                    <input
+                        type="text"
+                        v-model="lastName"
+                        id="lastName"
+                        name="lastName"
+                        placeholder="Last Name"
+                    />
                 </div>
                 <div class="user-info-container">
                     <input
+                        ref="emailInput"
                         type="email"
+                        v-model="email"
                         id="userEmail"
                         name="userEmail"
                         placeholder="Email"
                         required
                     />
-                    <input type="text" id="username" name="username" placeholder="Username" />
-                    <input type="password" id="userPass" name="userPass" placeholder="Password" />
                     <input
+                        type="text"
+                        v-model="username"
+                        id="username"
+                        name="username"
+                        placeholder="Username"
+                    />
+                    <input
+                        ref="passwordInput"
                         type="password"
+                        v-model="password"
+                        id="userPass"
+                        name="userPass"
+                        placeholder="Password"
+                    />
+                    <input
+                        ref="confirmPasswordInput"
+                        type="password"
+                        v-model="confirmPassword"
                         id="confirmPass"
                         name="confirmPass"
                         placeholder="Confirm Password"

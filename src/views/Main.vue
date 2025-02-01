@@ -1,10 +1,17 @@
 <script setup>
 import Header from '../components/Header.vue'
 import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 
 const router = useRouter()
 
 const firstName = localStorage.getItem('firstName')
+
+const sidebarToggle = ref(false)
+
+function toggleSidebar() {
+    sidebarToggle.value = !sidebarToggle.value
+}
 
 async function signOut(event) {
     event.preventDefault()
@@ -40,14 +47,31 @@ async function signOut(event) {
 <template>
     <Header>
         <nav>
-            <a @click="signOut">Sign Out</a>
+            <a @click="signOut" class="flex">Sign Out</a>
+        </nav>
+        <nav class="servicesHeader flex">
+            <div
+                tabindex="0"
+                class="hamburger-menu flex"
+                @click="toggleSidebar"
+                v-bind:class="{ active: sidebarToggle }"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </nav>
     </Header>
 
     <main>
-        <div class="container">
-            <div class="message-container">
+        <div class="container flex">
+            <div class="message-container flex">
                 <h1>Welcome {{ `${firstName}` || 'Guest' }}!</h1>
+            </div>
+            <div class="sidebar flex" :class="{ active: sidebarToggle }">
+                <ul>
+                    <li><a href="#">Delete Account</a></li>
+                </ul>
             </div>
         </div>
     </main>
@@ -55,9 +79,73 @@ async function signOut(event) {
 
 <style scoped>
 .container {
-    display: flex;
+    width: 100%;
     justify-content: center;
+    align-items: start;
+}
+
+.sidebar {
+    width: 250px;
+    height: 0px;
+    background-color: var(--color-form-background);
+    border: 1px solid var(--color-primary-orange);
+    backdrop-filter: blur(5px);
+    border-radius: 30px;
+    visibility: hidden;
+    right: 0;
+    margin-right: 1rem;
+    position: absolute;
+    transition:
+        width 1s ease,
+        height 1s ease,
+        visibility 1s ease;
+    justify-content: center;
+    align-items: space-around;
+}
+
+.sidebar li {
+    opacity: 0;
+}
+
+.sidebar.active li {
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+ul li {
+    list-style: none;
+    margin-top: 1rem;
+}
+
+ul li a {
+    color: rgba(194, 117, 44, 0.733);
+    font-family: var(--font-header-nav);
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.sidebar.active {
+    width: 250px;
+    height: 300px;
+    visibility: visible;
+    right: 0;
+}
+
+ul {
+    padding: 0;
+}
+
+nav {
+    justify-content: flex-end;
     align-items: center;
+    width: 150px;
+}
+
+.servicesHeader {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    margin-right: 3rem;
 }
 
 .message-container {
@@ -69,10 +157,38 @@ async function signOut(event) {
     border: 2px solid var(--color-primary-orange);
     border-radius: 20px;
     padding: 1rem;
-    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     color: var(--color-primary-orange);
+}
+
+.hamburger-menu {
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.hamburger-menu span {
+    transition:
+        transform 1s ease,
+        opacity 1s ease;
+}
+
+.hamburger-menu.active span:nth-child(1) {
+    transform: rotate(45deg) translate(7px, 7px);
+}
+.hamburger-menu.active span:nth-child(2) {
+    opacity: 0;
+}
+.hamburger-menu.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+span {
+    width: 40px;
+    height: 5px;
+    background-color: var(--color-nav-text);
+    border-radius: 10px;
 }
 </style>

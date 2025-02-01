@@ -1,9 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
 
 #app {
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 1rem 3rem;
   font-weight: normal;
 }
 
@@ -35,6 +33,12 @@ body {
   --color-input-border: rgba(255, 116, 3, 0.596);
   --color-valid-message: rgb(66, 229, 66);
   --color-error-message: rgb(247, 67, 67);
+
+  --color-form-background: rgba(81, 74, 74, 0.158);
+}
+
+.flex {
+  display: flex;
 }
 
 .header-nav-container nav {
@@ -43,6 +47,10 @@ body {
   align-items: center;
   gap: 3rem;
   justify-content: flex-end;
+}
+
+a {
+  cursor: pointer;
 }
 
 .empty {
@@ -79,35 +87,5 @@ body {
   }
   100% {
     transform: rotate(405deg);
-  }
-}
-
-/* Media Queries */
-
-@media (max-width: 600px) {
-  nav {
-    font-size: 30px;
-  }
-
-  input::placeholder {
-    color: black;
-  }
-
-  nav a {
-    margin: 1.5rem;
-  }
-}
-
-@media (max-width: 500px) {
-  nav {
-    font-size: 20px;
-  }
-
-  input::placeholder {
-    color: black;
-  }
-
-  nav a {
-    margin: 1.5rem;
   }
 }

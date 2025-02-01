@@ -6,10 +6,10 @@ import Logo from './Logo.vue'
 <template>
     <header>
         <div class="container">
-            <div class="logo-container">
+            <div class="logo-container flex">
                 <Logo />
             </div>
-            <nav class="header-nav-container">
+            <nav class="header-nav-container flex">
                 <slot></slot>
             </nav>
         </div>
@@ -22,6 +22,11 @@ import Logo from './Logo.vue'
     display: flex;
     justify-content: space-between;
     backdrop-filter: blur(1px);
+    overflow: hidden;
+}
+
+.header-nav-container {
+    margin-right: 4rem;
 }
 
 /* main -> two child containers */
@@ -29,6 +34,11 @@ import Logo from './Logo.vue'
 .header-nav-container {
     display: flex;
     justify-content: center;
+}
+
+.logo-container {
+    margin-left: 4rem;
+    margin-top: 2rem;
 }
 
 ::slotted(nav) {
@@ -58,7 +68,21 @@ import Logo from './Logo.vue'
     width: 120%;
 }
 
+:slotted(button) {
+    background-color: black;
+}
+
 :deep(nav a:hover) {
     color: rgb(129, 125, 118);
+}
+
+@media (max-width: 600px) {
+    :deep(nav) {
+        justify-content: center;
+    }
+
+    :deep(nav a) {
+        font-size: 20px;
+    }
 }
 </style>

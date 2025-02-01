@@ -15,4 +15,10 @@ img {
 img {
     animation: rocketship-animation 20s infinite;
 }
+
+@media (max-width: 600px) {
+    img {
+        max-width: 80px;
+    }
+}
 </style>

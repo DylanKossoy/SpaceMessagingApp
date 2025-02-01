@@ -9,6 +9,10 @@ const router = useRouter()
 const validText = ref('***')
 const errorText = ref('')
 
+const email = ref('')
+const password = ref('')
+const emailInput = ref('')
+const passwordInput = ref('')
 
 //async function that fetches
 
@@ -48,9 +52,7 @@ async function signIn(email, password) {
                 input.classList.remove('mismatch')
             })
         })
-
     }
-
 }
 
 const check = (event) => {
@@ -65,13 +67,11 @@ const check = (event) => {
             input.addEventListener('animationend', () => {
                 input.classList.remove('empty')
             })
-            isFull = false;
+            isFull = false
         }
     })
 
     // check valid email
-    const email = document.querySelector('#userEmail')
-    const password = document.querySelector('#userPass')
 
     const emailPass = emailValidator.validate(email.value)
 
@@ -81,13 +81,12 @@ const check = (event) => {
         validText.value = ''
         if (!isFull) {
             errorText.value = '* Empty Fields *'
-
         } else if (!emailPass) {
             errorText.value = '* Not Valid Email *'
 
-            email.classList.add('mismatch')
-            email.addEventListener('animationend', () => {
-                email.classList.remove('mismatch')
+            emailInput.value.classList.add('mismatch')
+            emailInput.value.addEventListener('animationend', () => {
+                emailInput.value.classList.remove('mismatch')
             })
         }
     }
@@ -110,8 +109,22 @@ const check = (event) => {
                     <span class="errorText" v-if="errorText">{{ errorText }}</span>
                 </div>
                 <div class="input-signin">
-                    <input type="email" class="userEmail" id="userEmail" placeholder="Email" />
-                    <input type="password" class="userPass" id="userPass" placeholder="Password" />
+                    <input
+                        ref="emailInput"
+                        v-model="email"
+                        type="email"
+                        class="userEmail"
+                        id="userEmail"
+                        placeholder="Email"
+                    />
+                    <input
+                        ref="passwordInput"
+                        v-model="password"
+                        type="password"
+                        class="userPass"
+                        id="userPass"
+                        placeholder="Password"
+                    />
                 </div>
 
                 <div class="button-signin">
@@ -201,6 +214,5 @@ input {
 
 .errorText {
     color: var(--color-error-message);
-
 }
 </style>
