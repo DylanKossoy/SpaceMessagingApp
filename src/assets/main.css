@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
 
 #app {
   margin: 0 auto;
@@ -22,6 +23,7 @@ body {
   --font-header-nav: 'Orbitron', serif;
   --font-primary: 'Noto Sans', serif;
   --font-nav: 'Noto Sans', serif;
+  --font-sidebar-anchors: 'Abel', serif;
 
   /* color variables */
   --color-primary: rgba(244, 244, 244, 0.76);

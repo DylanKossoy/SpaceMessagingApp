@@ -70,7 +70,14 @@ async function signOut(event) {
             </div>
             <div class="sidebar flex" :class="{ active: sidebarToggle }">
                 <ul>
-                    <li><a href="#">Delete Account</a></li>
+                    <li><img src="../../public/code-simple.svg" alt="" /><a href="#">Code</a></li>
+                    <li><img src="../../public/search.svg" alt="" /><a href="#">Search</a></li>
+                    <li><img src="../../public/bell.svg" alt="" /><a href="#">Notifications</a></li>
+                    <li>
+                        <img src="../../public/trash.svg" alt="" /><RouterLink to="/delete"
+                            >Delete Account</RouterLink
+                        >
+                    </li>
                 </ul>
             </div>
         </div>
@@ -104,12 +111,14 @@ async function signOut(event) {
 }
 
 .sidebar li {
+    display: flex;
+    justify-content: space-between;
     opacity: 0;
 }
 
 .sidebar.active li {
     opacity: 1;
-    transition: opacity 0.5s ease;
+    transition: opacity 4s ease;
 }
 
 ul li {
@@ -118,21 +127,29 @@ ul li {
 }
 
 ul li a {
-    color: rgba(194, 117, 44, 0.733);
-    font-family: var(--font-header-nav);
-    font-size: 20px;
+    color: var(--color-nav-text);
+    font-family: var(--font-sidebar-anchors);
+    font-size: 25px;
     text-decoration: none;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+ul li img {
+    max-height: 30px;
 }
 
 .sidebar.active {
     width: 250px;
-    height: 300px;
+    height: 240px;
     visibility: visible;
     right: 0;
 }
 
 ul {
-    padding: 0;
+    width: 100%;
+    padding: 0 1.5rem 0 1.5rem;
 }
 
 nav {
