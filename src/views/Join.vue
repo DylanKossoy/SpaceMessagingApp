@@ -7,8 +7,8 @@ import Header from '../components/Header.vue'
 const router = useRouter()
 
 // Reactive state variables for toggling messages
-const errorMessage = ref('')
-const validMessage = ref('***')
+const errorText = ref('')
+const validText = ref('***')
 
 const firstName = ref('')
 const lastName = ref('')
@@ -17,11 +17,20 @@ const password = ref('')
 const email = ref('')
 const confirmPassword = ref('')
 
-const emailInput = ref('')
-const passwordInput = ref('')
-const confirmPasswordInput = ref('')
+//these will be the toggle for the shake empty class
+const firstNameInput = ref(false)
+const lastNameInput = ref(false)
+const usernameInput = ref(false)
+const passwordInput = ref(false)
+const emailInput = ref(false)
+const confirmInput = ref(false)
 
-const inputs = ref([])
+const triggerShake = (field) => {
+    field.value = true
+    setTimeout(() => {
+        field.value = false
+    }, 300)
+}
 
 async function createUserJoin(firstName, lastName, username, password, email) {
     const data = {
@@ -54,68 +63,82 @@ async function createUserJoin(firstName, lastName, username, password, email) {
             name: 'main',
         })
     } else if (response.status === 400) {
-        errorMessage.value = 'Invalid email or password'
+        triggerShake(emailInput)
+        triggerShake(usernameInput)
+        errorText.value = ' * Invalid User -- Change Email or Username *'
+        validText.value = ''
     }
 }
 
-const check = (event) => {
+const check = async (event) => {
     event.preventDefault()
 
-    const inputs = document.querySelectorAll('form input')
-    let isFull = true
+    // Check if inputs are null
+    let error = false
 
-    // Check if inputs are empty
-    inputs.forEach((input) => {
-        if (!input.value.trim()) {
-            input.classList.add('empty')
-            input.addEventListener('animationend', () => {
-                input.classList.remove('empty')
-            })
-            isFull = false
-        }
-    })
+    if (!firstName.value.trim()) {
+        triggerShake(firstNameInput)
+        error = true
+    }
+
+    if (!lastName.value.trim()) {
+        triggerShake(lastNameInput)
+        error = true
+    }
+    if (!email.value.trim()) {
+        triggerShake(emailInput)
+        error = true
+    }
+    if (!username.value.trim()) {
+        triggerShake(usernameInput)
+        error = true
+    }
+    if (!password.value.trim()) {
+        triggerShake(passwordInput)
+        error = true
+    }
+    if (!confirmPassword.value.trim()) {
+        triggerShake(confirmInput)
+        error = true
+    }
+
+    if (error) {
+        errorText.value = '* Empty Fields *'
+        validText.value = ''
+        return
+    }
 
     // Validate email
-    const emailPass = emailValidator.validate(email.value)
+    if (!emailValidator.validate(email.value)) {
+        triggerShake(emailInput)
+        errorText.value = '* Invalid Email *'
+        validText.value = ''
+        return
+    }
 
     // Validate passwords
-    const passMatch = password.value === confirmPassword.value
-    const passLength = password.value.length >= 8
-
-    if (isFull && emailPass && passMatch && passLength) {
-        createUserJoin(firstName.value, lastName.value, username.value, password.value, email.value)
-    } else {
-        validMessage.value = ''
-        if (!isFull) {
-            errorMessage.value = '* Empty Fields *'
-        } else if (!emailPass) {
-            errorMessage.value = '* Not Valid Email *'
-            emailInput.value.classList.add('mismatch')
-            emailInput.value.addEventListener('animationend', () => {
-                emailInput.value.classList.remove('mismatch')
-            })
-        } else if (!passLength) {
-            errorMessage.value = '* Password must be at least 8 characters *'
-            passwordInput.value.classList.add('mismatch')
-            confirmPasswordInput.value.classList.add('mismatch')
-            passwordInput.value.addEventListener('animationend', () => {
-                passwordInput.value.classList.remove('mismatch')
-            })
-            confirmPasswordInput.value.addEventListener('animationend', () => {
-                confirmPasswordInput.value.classList.remove('mismatch')
-            })
-        } else if (!passMatch) {
-            errorMessage.value = '* Passwords do not match *'
-            passwordInput.value.classList.add('mismatch')
-            confirmPasswordInput.value.classList.add('mismatch')
-            passwordInput.value.addEventListener('animationend', () => {
-                passwordInput.value.classList.remove('mismatch')
-            })
-            confirmPasswordInput.value.addEventListener('animationend', () => {
-                confirmPasswordInput.value.classList.remove('mismatch')
-            })
-        }
+    if (password.value.length < 8) {
+        triggerShake(passwordInput)
+        errorText.value = '* Password must be at least 8 characters *'
+        validText.value = ''
+        return
     }
+
+    if (password.value !== confirmPassword.value) {
+        triggerShake(passwordInput)
+        triggerShake(confirmInput)
+        errorText.value = '* Passwords do not match *'
+        validText.value = ''
+        return
+    }
+
+    await createUserJoin(
+        firstName.value,
+        lastName.value,
+        username.value,
+        password.value,
+        email.value,
+    )
 }
 </script>
 
@@ -131,8 +154,8 @@ const check = (event) => {
         <div class="container">
             <form>
                 <div class="error-container">
-                    <span v-if="validMessage" class="validMessage">{{ validMessage }}</span>
-                    <span v-if="errorMessage" class="errorMessage">{{ errorMessage }}</span>
+                    <span v-if="validText" class="validText">{{ validText }}</span>
+                    <span v-if="errorText" class="errorText">{{ errorText }}</span>
                 </div>
                 <div class="firstLast">
                     <input
@@ -140,6 +163,7 @@ const check = (event) => {
                         v-model="firstName"
                         id="firstName"
                         name="firstName"
+                        :class="{ shake: firstNameInput }"
                         placeholder="First Name"
                     />
                     <input
@@ -147,12 +171,13 @@ const check = (event) => {
                         v-model="lastName"
                         id="lastName"
                         name="lastName"
+                        :class="{ shake: lastNameInput }"
                         placeholder="Last Name"
                     />
                 </div>
                 <div class="user-info-container">
                     <input
-                        ref="emailInput"
+                        :class="{ shake: emailInput }"
                         type="email"
                         v-model="email"
                         id="userEmail"
@@ -161,6 +186,7 @@ const check = (event) => {
                         required
                     />
                     <input
+                        :class="{ shake: usernameInput }"
                         type="text"
                         v-model="username"
                         id="username"
@@ -168,7 +194,7 @@ const check = (event) => {
                         placeholder="Username"
                     />
                     <input
-                        ref="passwordInput"
+                        :class="{ shake: passwordInput }"
                         type="password"
                         v-model="password"
                         id="userPass"
@@ -176,7 +202,7 @@ const check = (event) => {
                         placeholder="Password"
                     />
                     <input
-                        ref="confirmPasswordInput"
+                        :class="{ shake: confirmInput }"
                         type="password"
                         v-model="confirmPassword"
                         id="confirmPass"
@@ -198,6 +224,7 @@ const check = (event) => {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 2rem;
 }
 
 form {
@@ -282,11 +309,11 @@ input:focus {
     font-size: 15px;
 }
 
-.errorMessage {
+.errorText {
     color: var(--color-error-message);
 }
 
-.validMessage {
+.validText {
     color: var(--color-valid-message);
 }
 </style>

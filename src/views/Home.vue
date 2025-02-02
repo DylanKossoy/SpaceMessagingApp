@@ -21,6 +21,7 @@ import Header from '../components/Header.vue'
 
 <style scoped>
 .container {
+    margin-top: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -86,7 +86,7 @@ async function signOut(event) {
 
 <style scoped>
 .container {
-    width: 100%;
+    margin-top: 2rem;
     justify-content: center;
     align-items: start;
 }
@@ -133,7 +133,26 @@ ul li a {
     text-decoration: none;
     display: flex;
     justify-content: center;
+    width: 80%;
+    position: relative;
+}
+
+ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-primary-orange);
+    transition:
+        width 1s ease,
+        left 1s ease;
+}
+
+ul li a:hover::after {
     width: 100%;
+    left: 0;
 }
 
 ul li img {

@@ -110,7 +110,7 @@ const check = async (event) => {
                         ref="emailInput"
                         v-model="email"
                         type="email"
-                        :class="{ empty: emailInputValue }"
+                        :class="{ shake: emailInputValue }"
                         id="userEmail"
                         placeholder="Email"
                     />
@@ -118,7 +118,7 @@ const check = async (event) => {
                         ref="passwordInput"
                         v-model="password"
                         type="password"
-                        :class="{ empty: passwordInputValue }"
+                        :class="{ shake: passwordInputValue }"
                         id="userPass"
                         placeholder="Password"
                     />
@@ -134,6 +134,7 @@ const check = async (event) => {
 
 <style scoped>
 .container {
+    margin-top: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
