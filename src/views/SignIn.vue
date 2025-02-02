@@ -11,10 +11,18 @@ const errorText = ref('')
 
 const email = ref('')
 const password = ref('')
-const emailInput = ref('')
-const passwordInput = ref('')
+
+const passwordInputValue = ref(false)
+const emailInputValue = ref(false)
 
 //async function that fetches
+
+const triggerShake = (field) => {
+    field.value = true
+    setTimeout(() => {
+        field.value = false
+    }, 300)
+}
 
 async function signIn(email, password) {
     const data = { email, password }
@@ -41,55 +49,44 @@ async function signIn(email, password) {
             name: 'main',
         })
     } else if (response.status === 400) {
+        triggerShake(emailInputValue)
+        triggerShake(passwordInputValue)
+        errorText.value = '* Invalid user *'
         validText.value = ''
-        errorText.value = '* Invalid User *'
-
-        const inputs = document.querySelectorAll('form input')
-
-        inputs.forEach((input) => {
-            input.classList.add('mismatch')
-            input.addEventListener('animationend', () => {
-                input.classList.remove('mismatch')
-            })
-        })
     }
 }
 
-const check = (event) => {
+const check = async (event) => {
     event.preventDefault()
 
-    const inputs = document.querySelectorAll('form input')
-    let isFull = true
+    // checks if inputs are empty
 
-    inputs.forEach((input) => {
-        if (!input.value.trim()) {
-            input.classList.add('empty')
-            input.addEventListener('animationend', () => {
-                input.classList.remove('empty')
-            })
-            isFull = false
-        }
-    })
+    let error = false
 
-    // check valid email
-
-    const emailPass = emailValidator.validate(email.value)
-
-    if (isFull && emailPass) {
-        signIn(email.value, password.value)
-    } else {
-        validText.value = ''
-        if (!isFull) {
-            errorText.value = '* Empty Fields *'
-        } else if (!emailPass) {
-            errorText.value = '* Not Valid Email *'
-
-            emailInput.value.classList.add('mismatch')
-            emailInput.value.addEventListener('animationend', () => {
-                emailInput.value.classList.remove('mismatch')
-            })
-        }
+    if (!email.value.trim()) {
+        triggerShake(emailInputValue)
+        error = true
     }
+
+    if (!password.value.trim()) {
+        triggerShake(passwordInputValue)
+        error = true
+    }
+
+    if (error) {
+        errorText.value = '* Empty Fields *'
+        validText.value = ''
+        return
+    }
+
+    if (!emailValidator.validate(email.value)) {
+        errorText.value = '* Invalid Email *'
+        validText.value = ''
+        triggerShake(emailInputValue)
+        return
+    }
+
+    await signIn(email.value, password.value)
 }
 </script>
 
@@ -113,7 +110,7 @@ const check = (event) => {
                         ref="emailInput"
                         v-model="email"
                         type="email"
-                        class="userEmail"
+                        :class="{ empty: emailInputValue }"
                         id="userEmail"
                         placeholder="Email"
                     />
@@ -121,7 +118,7 @@ const check = (event) => {
                         ref="passwordInput"
                         v-model="password"
                         type="password"
-                        class="userPass"
+                        :class="{ empty: passwordInputValue }"
                         id="userPass"
                         placeholder="Password"
                     />
