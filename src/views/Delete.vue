@@ -1,38 +1,55 @@
 <script setup>
 import Header from '@/components/Header.vue'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import { ref } from 'vue'
 
 const deleteInput = ref('')
 const errorText = ref('')
 const deleteInputValue = ref(false)
-
-
-
+const router = useRouter()
 
 const triggerShake = (field) => {
     field.value = true
     setTimeout(() => {
         field.value = false
-
     }, 300)
-
 }
 
-const check = () => {
+const check = async () => {
     if (deleteInput.value.trim() !== 'DELETE') {
         triggerShake(deleteInputValue)
         errorText.value = '* Must spell "DELETE" to continue *'
         return
-
     }
 
+    const url = 'https://hap-app-api.azurewebsites.net/user'
+    const token = localStorage.getItem('token')
 
+    const options = {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+    }
 
+    const response = await fetch(url, options)
 
+    if (response.status === 200) {
+        localStorage.removeItem('token')
+        localStorage.removeItem('firstName')
 
-
-
+        router.push({
+            name: 'home',
+        })
+        return
+    } else if (response.status === 401) {
+        triggerShake(deleteInputValue)
+        errorText.value = '* Unauthorized *'
+        return
+    } else {
+        console.log('server 500')
+    }
 }
 </script>
 
@@ -55,7 +72,12 @@ const check = () => {
                 </div>
                 <div class="delete-container flex">
                     <h3>Enter "DELETE" to Continue</h3>
-                    <input type="text" v-model="deleteInput" :class="{ shake: deleteInputValue }" placeholder="DELETE" />
+                    <input
+                        type="text"
+                        v-model="deleteInput"
+                        :class="{ shake: deleteInputValue }"
+                        placeholder="DELETE"
+                    />
                     <button type="submit" class="deleteButton" @click="check()">
                         Delete Account
                     </button>
