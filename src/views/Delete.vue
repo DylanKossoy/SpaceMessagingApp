@@ -4,9 +4,11 @@ import { RouterLink } from 'vue-router'
 import { ref } from 'vue'
 
 const deleteInput = ref('')
+const errorText = ref('hello there')
 
 const check = () => {
-    console.log(deleteInput.value)
+    // if (deleteInput.value.trim() !== 'DELETE') {
+    // }
 }
 </script>
 
@@ -20,6 +22,9 @@ const check = () => {
     <main>
         <div class="container flex">
             <div class="box-container flex">
+                <div class="error-container flex">
+                    <div v-if="errorText" class="errorText">{{ errorText }}</div>
+                </div>
                 <div class="message-container flex">
                     <h1>** You Sure About This **</h1>
                     <h3>This is Permenant</h3>
@@ -42,6 +47,7 @@ const check = () => {
     margin-top: 2rem;
     justify-content: center;
     align-items: center;
+    font-family: var(--font-header-nav);
 }
 
 img {
@@ -106,7 +112,13 @@ input:focus {
 }
 
 .message-container h1 {
-    font-size: 30px;
+    font-size: 25px;
+}
+
+.error-container {
+    position: absolute;
+    bottom: 10%;
+    color: var(--color-error-message);
 }
 
 .box-container {
