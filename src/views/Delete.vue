@@ -4,11 +4,35 @@ import { RouterLink } from 'vue-router'
 import { ref } from 'vue'
 
 const deleteInput = ref('')
-const errorText = ref('hello there')
+const errorText = ref('')
+const deleteInputValue = ref(false)
+
+
+
+
+const triggerShake = (field) => {
+    field.value = true
+    setTimeout(() => {
+        field.value = false
+
+    }, 300)
+
+}
 
 const check = () => {
-    // if (deleteInput.value.trim() !== 'DELETE') {
-    // }
+    if (deleteInput.value.trim() !== 'DELETE') {
+        triggerShake(deleteInputValue)
+        errorText.value = '* Must spell "DELETE" to continue *'
+        return
+
+    }
+
+
+
+
+
+
+
 }
 </script>
 
@@ -31,7 +55,7 @@ const check = () => {
                 </div>
                 <div class="delete-container flex">
                     <h3>Enter "DELETE" to Continue</h3>
-                    <input type="text" v-model="deleteInput" placeholder="DELETE" />
+                    <input type="text" v-model="deleteInput" :class="{ shake: deleteInputValue }" placeholder="DELETE" />
                     <button type="submit" class="deleteButton" @click="check()">
                         Delete Account
                     </button>
@@ -58,7 +82,7 @@ img {
     flex-direction: column;
     align-items: center;
     position: absolute;
-    bottom: 20%;
+    bottom: 25%;
 }
 
 .delete-container h3 {
