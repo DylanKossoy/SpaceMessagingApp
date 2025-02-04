@@ -107,7 +107,6 @@ const check = async (event) => {
                 </div>
                 <div class="input-signin">
                     <input
-                        ref="emailInput"
                         v-model="email"
                         type="email"
                         :class="{ shake: emailInputValue }"
@@ -115,7 +114,6 @@ const check = async (event) => {
                         placeholder="Email"
                     />
                     <input
-                        ref="passwordInput"
                         v-model="password"
                         type="password"
                         :class="{ shake: passwordInputValue }"
