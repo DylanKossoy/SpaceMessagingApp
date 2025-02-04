@@ -38,6 +38,9 @@ const check = async () => {
     if (response.status === 200) {
         localStorage.removeItem('token')
         localStorage.removeItem('firstName')
+        localStorage.removeItem('lastName')
+        localStorage.removeItem('email')
+        localStorage.removeItem('username')
 
         router.push({
             name: 'home',

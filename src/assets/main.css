@@ -11,6 +11,7 @@ html {
 }
 
 body {
+  cursor: url('custom-cursor.png'), pointer;
   background-image: url('/background.jpg');
   background-size: cover;
   margin: 0;
@@ -53,6 +54,10 @@ body {
 
 a {
   cursor: pointer;
+}
+
+a:hover {
+  cursor: url('../../public/custom-cursor-click.png'), pointer;
 }
 
 .shake {

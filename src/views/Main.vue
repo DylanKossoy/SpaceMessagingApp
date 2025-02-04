@@ -205,6 +205,10 @@ nav {
     cursor: pointer;
 }
 
+.hamburger-menu:hover {
+    cursor: url('../../public/custom-cursor-click.png'), pointer;
+}
+
 .hamburger-menu span {
     transition:
         transform 1s ease,

@@ -58,6 +58,11 @@ async function createUserJoin(firstName, lastName, username, password, email) {
 
         localStorage.setItem('token', data.token)
         localStorage.setItem('firstName', data.user.firstName)
+        localStorage.setItem('lastName', data.user.lastName)
+        localStorage.setItem('email', data.user.email)
+        localStorage.setItem('username', data.user.userName)
+
+        console.log(data)
 
         router.push({
             name: 'main',
