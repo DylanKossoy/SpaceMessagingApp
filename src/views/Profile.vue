@@ -32,12 +32,25 @@ const email = localStorage.getItem('email')
         </div>
         <div class="profile-data-container">
             <div class="firstLast">
-                <h2>First: {{ firstName }}</h2>
-                <h2>Last: {{ lastName }}</h2>
+                <div class="first">
+                    <label for="firstName">First</label>
+                    <span class="data-text">{{ firstName }}</span>
+                </div>
+                <div class="last">
+                    <label for="firstName">Last</label>
+                    <span class="data-text">{{ lastName }}</span>
+                </div>
             </div>
             <div class="data">
-                <h2>Username: {{ username }}</h2>
-                <h2>Email: {{ email }}</h2>
+                <div class="username">
+                    <label for="username">Username</label>
+                    <span class="data-text">{{ username }}</span>
+                </div>
+                <div class="email">
+                    <label for="firstName">Email</label>
+                    <span class="data-text">{{ email }}</span>
+                </div>
+
 
             </div>
         </div>
@@ -62,36 +75,41 @@ const email = localStorage.getItem('email')
 }
 
 
-.profile-data-container h2 {
-    font-size: 30px;
+.profile-data-container {
     display: flex;
-    border-radius: 20px;
-    border: 1px solid var(--color-primary-orange);
-    justify-content: center;
-    font-family: var(--font-header-nav);
+    flex-direction: column;
+}
+
+
+.profile-data-container span {
+    font-size: 35px;
+    max-height: 60px;
     color: white;
+    border: 2px solid var(--color-primary-orange);
+    padding: 1rem;
+    box-sizing: border-box;
+}
 
 
+.first, .last, .username, .email {
+    display: flex;
+    flex-direction: column;
 }
 
 .firstLast {
     display: flex;
     justify-content: space-between;
+    margin: 2rem;
+    gap: 2rem;
+
 }
 
-.firstLast h2 {
+.firstLast span {
     width: 200px;
 }
 
-.data {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 
-.data h2 {
-    width: 450px;
-}
+
 
 .profile-pic {
     max-height: 150px;
