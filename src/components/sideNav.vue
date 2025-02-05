@@ -45,8 +45,11 @@ async function signOut(event) {
                         <h1>Search</h1>
                     </li>
                     <li>
-                        <img src="../../public/user.svg" class="interface-icon shift-left" alt="" />
-                        <h1>Profile</h1>
+                        <RouterLink to ="/main/profile">
+                            <img src="../../public/user.svg" class="interface-icon shift-left" alt="" />
+                            <h1>Profile</h1>
+
+                        </RouterLink>
                     </li>
                     <li>
                         <RouterLink to="/delete">
