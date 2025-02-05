@@ -4,6 +4,7 @@ import Join from '../views/Join.vue'
 import SignIn from '@/views/SignIn.vue' //@ symbol starts your path at source. ../ just goes back a file
 import Main from '@/views/Main.vue'
 import Delete from '@/views/Delete.vue'
+import sideNav from '@/components/sideNav.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,8 +26,15 @@ const router = createRouter({
         },
         {
             path: '/main',
-            name: 'main',
             component: Main,
+            children: [
+                {
+                    path: '',
+                    components: {
+                        LeftSideBar: sideNav,
+                    },
+                },
+            ],
         },
         {
             path: '/delete',

@@ -1,6 +1,6 @@
 <script setup>
 import Header from '../components/Header.vue'
-import { useRouter } from 'vue-router'
+import { useRouter, RouterView } from 'vue-router'
 import { ref } from 'vue'
 
 const router = useRouter()
@@ -49,30 +49,15 @@ async function signOut(event) {
         <nav>
             <a @click="signOut" class="flex">Sign Out</a>
         </nav>
-        <nav class="servicesHeader flex">
-            <div
-                tabindex="0"
-                class="hamburger-menu flex"
-                @click="toggleSidebar"
-                v-bind:class="{ active: sidebarToggle }"
-            >
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </nav>
     </Header>
 
     <main>
-        <div class="container"></div>
+
+        <RouterView name="LeftSideBar" class="LeftSideBar gridItem"></RouterView>
+
     </main>
 </template>
 
 <style scoped>
-.container {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
 
-    border: 1px solid white;
-}
 </style>
