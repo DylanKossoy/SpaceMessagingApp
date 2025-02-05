@@ -65,7 +65,7 @@ async function createUserJoin(firstName, lastName, username, password, email) {
         console.log(data)
 
         router.push({
-            name: 'main',
+            path: '/main',
         })
     } else if (response.status === 400) {
         triggerShake(emailInput)

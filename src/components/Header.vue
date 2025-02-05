@@ -23,6 +23,7 @@ import Logo from './Logo.vue'
     justify-content: space-between;
     backdrop-filter: blur(1px);
     overflow: hidden;
+    margin-bottom: 1.5rem;
 }
 
 .header-nav-container {

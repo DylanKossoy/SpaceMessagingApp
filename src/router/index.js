@@ -4,6 +4,8 @@ import Join from '../views/Join.vue'
 import SignIn from '@/views/SignIn.vue' //@ symbol starts your path at source. ../ just goes back a file
 import Main from '@/views/Main.vue'
 import Delete from '@/views/Delete.vue'
+import Feed from '@/views/Feed.vue'
+import UserList from '@/views/UserList.vue'
 import sideNav from '@/components/sideNav.vue'
 
 const router = createRouter({
@@ -31,7 +33,9 @@ const router = createRouter({
                 {
                     path: '',
                     components: {
-                        LeftSideBar: sideNav,
+                        LeftSidebar: sideNav,
+                        focus: Feed,
+                        RightSidebar: UserList,
                     },
                 },
             ],
