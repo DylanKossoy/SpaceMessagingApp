@@ -301,6 +301,7 @@ input:focus {
 
 #submit:hover {
     background-color: rgba(255, 116, 3, 0.391);
+    cursor: url('../../public/custom-cursor-click.png'), pointer;
 }
 
 .error-container {
