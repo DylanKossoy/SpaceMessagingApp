@@ -46,7 +46,7 @@ async function signIn(email, password) {
         localStorage.setItem('firstName', data.user.firstName)
 
         router.push({
-            name: 'main',
+            path: '/main',
         })
     } else if (response.status === 400) {
         triggerShake(emailInputValue)
