@@ -45,14 +45,17 @@ async function signOut(event) {
                         <h1>Search</h1>
                     </li>
                     <li>
-                        <RouterLink to ="/main/profile">
-                            <img src="../../public/user.svg" class="interface-icon shift-left" alt="" />
+                        <RouterLink to="/main/profile">
+                            <img
+                                src="../../public/user.svg"
+                                class="interface-icon shift-left"
+                                alt=""
+                            />
                             <h1>Profile</h1>
-
                         </RouterLink>
                     </li>
                     <li>
-                        <RouterLink to="/delete">
+                        <RouterLink to="/main/delete">
                             <img src="../../public/delete-user.svg" class="interface-icon" alt="" />
                             <h1>Delete Account</h1>
                         </RouterLink>
@@ -87,7 +90,7 @@ async function signOut(event) {
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
     background: rgba(255, 255, 255, 0.495);
-    width: 300px;
+    width: 250px;
     height: 100%;
     backdrop-filter: blur(10px);
 }
@@ -105,7 +108,7 @@ async function signOut(event) {
     width: 100%;
     list-style: none;
     font-family: var(--font-header-nav);
-    font-size: 13px;
+    font-size: 10px;
     text-decoration: none;
     color: black;
 }
@@ -122,7 +125,7 @@ li {
     width: 100%;
     list-style: none;
     font-family: var(--font-header-nav);
-    font-size: 13px;
+    font-size: 10px;
 }
 
 li:hover {

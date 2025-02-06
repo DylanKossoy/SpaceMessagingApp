@@ -1,34 +1,23 @@
 <script setup>
-
 import { useRouter } from 'vue-router'
 
-
 const router = useRouter()
-
-
 
 const firstName = localStorage.getItem('firstName')
 const lastName = localStorage.getItem('lastName')
 const username = localStorage.getItem('username')
 const email = localStorage.getItem('email')
-
-
-
-
-
-
-
-
-
 </script>
 
 <template>
     <div class="profile-container">
         <div class="back-button-container">
-            <button @click="router.back()">back</button>
+            <div tabindex="0" @click="router.back()">
+                <img class="arrow" src="../../public//arrow-small-left.svg" alt="" />
+            </div>
         </div>
         <div class="profile-image-container">
-            <img src="../../public/circle-user.svg" class="profile-pic" alt="" />
+            <img src="../../public/circle-user-2.png" class="profile-pic" alt="" />
         </div>
         <div class="profile-data-container">
             <div class="firstLast">
@@ -50,8 +39,6 @@ const email = localStorage.getItem('email')
                     <label for="firstName">Email</label>
                     <span class="data-text">{{ email }}</span>
                 </div>
-
-
             </div>
         </div>
     </div>
@@ -66,32 +53,34 @@ const email = localStorage.getItem('email')
     border-radius: 40px;
     backdrop-filter: blur(10px);
     box-shadow: 1rem 1rem 15rem 1rem black;
+    cursor: url('../../public/custom-cursor.png'), pointer;
 }
-
 
 .profile-data-container {
     width: 70%;
     height: 50%;
-}
-
-
-.profile-data-container {
     display: flex;
     flex-direction: column;
+    width: 90%;
 }
-
 
 .profile-data-container span {
-    font-size: 35px;
-    max-height: 60px;
+    height: 50px;
     color: white;
+    outline: none;
     border: 2px solid var(--color-primary-orange);
-    padding: 1rem;
+    border-radius: 20px;
+    background: rgba(133, 120, 120, 0.156);
+    font-family: var(--font-header-nav);
     box-sizing: border-box;
+    padding-left: 1rem;
+    font-size: 20px;
 }
 
-
-.first, .last, .username, .email {
+.first,
+.last,
+.username,
+.email {
     display: flex;
     flex-direction: column;
 }
@@ -99,19 +88,50 @@ const email = localStorage.getItem('email')
 .firstLast {
     display: flex;
     justify-content: space-between;
-    margin: 2rem;
-    gap: 2rem;
+    margin-bottom: 2rem;
+}
 
+span {
+    padding-top: 0.7rem;
+}
+
+.profile-data-container label {
+    font-size: 15px;
+    margin-bottom: 5px;
+    font-family: var(--font-header-nav);
+    color: var(--color-primary-orange);
+    cursor: url('../../public/custom-cursor.png'), pointer;
 }
 
 .firstLast span {
     width: 200px;
 }
 
+span:hover,
+.arrow:hover {
+    cursor: url('../../public/custom-cursor-click.png'), pointer;
+}
 
-
+.username {
+    margin-bottom: 2rem;
+}
 
 .profile-pic {
-    max-height: 150px;
+    max-height: 200px;
+}
+
+.back-button-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.back-button-container div {
+    max-height: 50px;
+}
+
+.back-button-container div img {
+    height: 100%;
+    margin-left: 2rem;
 }
 </style>

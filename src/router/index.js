@@ -38,16 +38,22 @@ const router = createRouter({
                         focus: Feed,
                         RightSidebar: UserList,
                     },
-
                 },
                 {
-                    path:'/main/profile',
+                    path: '/main/profile',
                     components: {
                         LeftSidebar: sideNav,
                         focus: Profile,
                         RightSidebar: UserList,
-
-                    }
+                    },
+                },
+                {
+                    path: '/main/delete',
+                    components: {
+                        LeftSidebar: sideNav,
+                        focus: Delete,
+                        RightSidebar: UserList,
+                    },
                 },
             ],
         },
