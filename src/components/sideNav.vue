@@ -1,8 +1,18 @@
 <script setup>
 import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 
 const router = useRouter()
 
+// Sidebar toggle state
+const sidebarValue = ref(false)
+
+// Function to toggle sidebar visibility
+function toggleSidebar() {
+    sidebarValue.value = !sidebarValue.value
+}
+
+// Sign out function
 async function signOut(event) {
     event.preventDefault()
 
@@ -21,9 +31,11 @@ async function signOut(event) {
 
     if (response.ok) {
         if (response.status === 200) {
+            // Remove user data from local storage
             localStorage.removeItem('token')
             localStorage.removeItem('firstName')
 
+            // Redirect to home page
             router.push({
                 name: 'home',
             })
@@ -37,23 +49,25 @@ async function signOut(event) {
 
 <template>
     <div class="container">
-        <div class="nav-container">
+        <!-- Sidebar Navigation -->
+        <div class="nav-container" :class="{ active: sidebarValue }">
             <nav class="higher">
                 <ul>
+                    <!-- Search -->
                     <li>
                         <img src="../../public/search.svg" class="interface-icon" alt="" />
                         <h1>Search</h1>
                     </li>
+
+                    <!-- Profile Link -->
                     <li>
                         <RouterLink to="/main/profile">
-                            <img
-                                src="../../public/user.svg"
-                                class="interface-icon shift-left"
-                                alt=""
-                            />
+                            <img src="../../public/user.svg" class="interface-icon shift-left" alt="" />
                             <h1>Profile</h1>
                         </RouterLink>
                     </li>
+
+                    <!-- Delete Account Link -->
                     <li>
                         <RouterLink to="/main/delete">
                             <img src="../../public/delete-user.svg" class="interface-icon" alt="" />
@@ -62,12 +76,17 @@ async function signOut(event) {
                     </li>
                 </ul>
             </nav>
+
+            <!-- Lower Navigation (Sign Out & Settings) -->
             <nav class="lower">
                 <ul>
+                    <!-- Sign Out -->
                     <li>
                         <img src="../../public/signOut.png" class="interface-icon" alt="" />
                         <h1 @click="signOut">Sign out</h1>
                     </li>
+
+                    <!-- Settings -->
                     <li>
                         <img src="../../public/settings.svg" class="interface-icon" alt="" />
                         <h1>Settings</h1>
@@ -79,28 +98,33 @@ async function signOut(event) {
 </template>
 
 <style scoped>
+/* Container styling */
 .container {
     background: none;
 }
 
+/* Sidebar Navigation */
 .nav-container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
-    background: rgba(255, 255, 255, 0.495);
+    background: rgba(215, 214, 177, 0.542);
     width: 250px;
     height: 100%;
     backdrop-filter: blur(10px);
+    box-shadow: 0.5rem 0.5rem 2rem 1rem rgba(26, 17, 12, 0.57);
 }
 
+/* List styles */
 .nav-container ul {
     display: flex;
     flex-direction: column;
     list-style: none;
 }
 
+/* Navigation links */
 .nav-container a {
     display: flex;
     justify-content: flex-start;
@@ -113,11 +137,13 @@ async function signOut(event) {
     color: black;
 }
 
+/* Remove padding for cleaner layout */
 .nav-container .lower ul,
 .nav-container .higher ul {
     padding: 0;
 }
 
+/* List item styles */
 li {
     display: flex;
     justify-content: flex-start;
@@ -128,15 +154,19 @@ li {
     font-size: 10px;
 }
 
+/* Hover effect */
 li:hover {
     cursor: url('../../public/custom-cursor-click.png'), pointer;
+    background-color: grey;
 }
 
+/* Adjust icon spacing */
 .nav-container .higher li .shift-left {
     margin-left: 1.8rem;
     margin-right: 2.2rem;
 }
 
+/* Icon styling */
 .interface-icon {
     max-height: 25px;
     padding: 0;
