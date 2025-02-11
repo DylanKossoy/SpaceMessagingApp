@@ -124,7 +124,7 @@ function save(e) {
         </div>
         <Modal ref="name-modal">
             <template #header>
-                <h1 class="primary-heading">Title</h1>
+                <h1 class="primary-heading">Edit Profile</h1>
             </template>
             <template #main>
                 <div class="firstLast">
@@ -133,14 +133,14 @@ function save(e) {
                         v-model="newFirstName"
                         id="firstName"
                         name="firstName"
-                        placeholder="First Name"
+                        placeholder="New First Name"
                     />
                     <input
                         type="text"
                         v-model="newLastName"
                         id="lastName"
                         name="lastName"
-                        placeholder="Last Name"
+                        placeholder="New Last Name"
                     />
                 </div>
                 <div class="user-info-container">
@@ -149,7 +149,7 @@ function save(e) {
                         v-model="newEmail"
                         id="userEmail"
                         name="userEmail"
-                        placeholder="Email"
+                        placeholder="New Email"
                         required
                     />
                     <input
@@ -157,7 +157,7 @@ function save(e) {
                         v-model="newUsername"
                         id="username"
                         name="username"
-                        placeholder="Username"
+                        placeholder="New Username"
                     />
                 </div>
             </template>
@@ -281,5 +281,54 @@ span:hover,
 .edit:hover {
     background-color: rgba(255, 116, 3, 0.391);
     cursor: url('../../public/custom-cursor-click.png'), pointer;
+}
+
+/* h1 title for modal */
+.primary-heading {
+    color: white;
+}
+
+/* modal editing */
+
+.modal .firstLast {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal .user-info-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal input {
+    margin: 0.7rem 0.5rem;
+    height: 45px;
+    color: white;
+    outline: none;
+    border: 2px solid var(--color-primary-orange);
+    border-radius: 20px;
+    background: rgba(174, 40, 40, 0.274);
+    font-family: var(--font-header-nav);
+    box-sizing: border-box;
+    padding-left: 1rem;
+    font-size: 15px;
+}
+
+.modal button {
+    width: 100px;
+    height: 40px;
+    border-radius: 10px;
+    color: white;
+    font-size: 15px;
+    font-family: var(--font-header-nav);
+    background: transparent;
+    backdrop-filter: blur(5px);
+
+    border: 2px solid var(--color-primary-orange);
+    cursor: url('../../public/custom-cursor.png'), pointer;
+}
+
+.modal button:hover {
+    background: rgba(174, 40, 40, 0.274);
 }
 </style>

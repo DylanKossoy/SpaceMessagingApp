@@ -13,8 +13,6 @@ function open() {
 }
 
 function close(e) {
-    console.log('on close')
-    console.log('t: ' + e.target + ' ct: ' + e.currentTarget)
     showModal.value = false
 }
 </script>
@@ -24,8 +22,6 @@ function close(e) {
         <div class="modal">
             <header>
                 <slot name="header"></slot>
-
-                <div class="icon button modal-button" @click.stop="close"></div>
             </header>
 
             <main>
@@ -55,8 +51,13 @@ function close(e) {
 }
 
 .modal {
-    background-color: var(--modal-background-clr);
-    padding: var(--size-300);
+    display: flex;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.463);
+    max-width: 500px;
+    width: 90%;
+    backdrop-filter: blur(5px);
+    border-radius: 20px;
 }
 
 .modal-button:hover {
@@ -64,28 +65,11 @@ function close(e) {
     border-radius: 50%;
 }
 
-.main {
-    display: flex;
-    flex-direction: column;
-}
-header {
-    display: flex;
-    margin-bottom: var(--size-100);
-    justify-content: space-between;
-}
-
-header > img {
-    margin-left: var(--size-500);
-}
-
 footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: var(--size-400);
-}
-
-.highlight {
-    background-color: yellow;
+    margin: 1rem;
+    gap: 1rem;
 }
 </style>
