@@ -1,6 +1,10 @@
 <script setup>
+<<<<<<< HEAD
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
+=======
+import { RouterLink, useRouter } from 'vue-router'
+>>>>>>> bb0b56a (home nav update)
 
 const router = useRouter()
 
@@ -54,6 +58,12 @@ async function signOut(event) {
             <nav class="higher">
                 <ul>
                     <!-- Search -->
+                    <li>
+                        <RouterLink to="/main">
+                            <img src="../../public/home.svg" class="interface-icon" alt="" />
+                            <h1>Home</h1>
+                        </RouterLink>
+                    </li>
                     <li>
                         <img src="../../public/search.svg" class="interface-icon" alt="" />
                         <h1>Search</h1>
