@@ -93,6 +93,7 @@ async function signOut(event) {
                     </li>
                 </ul>
             </nav>
+            <button class="toggle-nav-container" @click="toggleSidebar"></button>
         </div>
     </div>
 </template>
@@ -100,6 +101,7 @@ async function signOut(event) {
 <style scoped>
 /* Container styling */
 .container {
+
     background: none;
 }
 
@@ -110,12 +112,23 @@ async function signOut(event) {
     justify-content: space-between;
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
-    background: rgba(215, 214, 177, 0.542);
+    background: rgba(94, 190, 231, 0.331);
     width: 250px;
     height: 100%;
     backdrop-filter: blur(10px);
     box-shadow: 0.5rem 0.5rem 2rem 1rem rgba(26, 17, 12, 0.57);
+    transform: translateX(-250px);
+    transition: transform 2s ease;
+    position: relative;
 }
+
+/* sidebar nav when active */
+.active {
+    transform: translateX(0);
+}
+
+
+
 
 /* List styles */
 .nav-container ul {
@@ -172,4 +185,32 @@ li:hover {
     padding: 0;
     margin: 1rem 2rem 1rem 2rem;
 }
+
+
+/* button to toggle nav bar */
+
+.toggle-nav-container {
+    width: 20px;
+    height: 150px;
+    transform: translateX(250px);
+    background: rgba(94, 231, 183, 0.467);
+    border: none;
+    position: absolute;
+    border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+    top: 30%;
+
+}
+
+
+.toggle-nav-container:hover {
+    background-color: rgba(94, 231, 183, 0.218);
+    cursor: url('../../public/custom-cursor-click.png'), pointer;
+}
+
+
+
+
+
+
 </style>

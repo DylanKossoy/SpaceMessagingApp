@@ -1,7 +1,14 @@
 <script setup></script>
 
 <template>
-    <h1>userList</h1>
+
+    <div class="container">
+        <div class="info-log">
+            <ul>
+                <li></li>
+            </ul>
+        </div>
+    </div>
 </template>
 
 <style scoped></style>

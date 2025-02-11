@@ -15,6 +15,9 @@ const email = localStorage.getItem('email')
             <div tabindex="0" @click="router.back()">
                 <img class="arrow" src="../../public//arrow-small-left.svg" alt="" />
             </div>
+            <div class="edit-info">
+                <button class="edit">edit</button>
+            </div>
         </div>
         <div class="profile-image-container">
             <img src="../../public/circle-user-2.png" class="profile-pic" alt="" />
@@ -123,7 +126,7 @@ span:hover,
 .back-button-container {
     width: 100%;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
 }
 
 .back-button-container div {
@@ -133,5 +136,29 @@ span:hover,
 .back-button-container div img {
     height: 100%;
     margin-left: 2rem;
+}
+
+
+/* editing button */
+
+.edit {
+
+    margin-inline: 2rem;
+    border-radius: 20px;
+    outline: none;
+    border: none;
+    background: var(--color-primary-orange);
+    width: 150px;
+    height: 45px;
+    color: white;
+    font-size: 20px;
+    font-family: var(--font-header-nav);
+
+}
+
+
+.edit:hover {
+    background-color: rgba(255, 116, 3, 0.391);
+    cursor: url('../../public/custom-cursor-click.png'), pointer;
 }
 </style>
