@@ -1,5 +1,9 @@
 <script setup>
 import { useRouter } from 'vue-router'
+import { ref, useTemplateRef } from 'vue'
+import Modal from '../components/Modal.vue'
+
+const modal = useTemplateRef('name-modal')
 
 const router = useRouter()
 
@@ -7,6 +11,64 @@ const firstName = localStorage.getItem('firstName')
 const lastName = localStorage.getItem('lastName')
 const username = localStorage.getItem('username')
 const email = localStorage.getItem('email')
+
+const newFirstName = ref()
+const newLastName = ref()
+const newEmail = ref()
+const newUsername = ref()
+
+async function editUser() {
+    const data = {
+        email: newEmail.value || email,
+        userName: newUsername.value || username,
+        firstName: newFirstName.value || firstName,
+        lastName: newLastName.value || lastName,
+    }
+
+    console.log(data)
+
+    const url = 'https://hap-app-api.azurewebsites.net/user'
+
+    const options = {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(data),
+    }
+
+    const response = await fetch(url, options)
+
+    if (response.status === 200) {
+        const data = await response.json()
+
+        if (data.user) {
+            localStorage.setItem('token', data.token)
+            localStorage.setItem('firstName', data.user.firstName)
+            localStorage.setItem('lastName', data.user.lastName)
+            localStorage.setItem('email', data.user.email)
+            localStorage.setItem('username', data.user.userName)
+        }
+
+        console.log(data)
+
+        router.push({
+            path: '/main',
+        })
+    } else {
+        console.log('error')
+    }
+}
+
+function cancel(e) {
+    modal.value.close(e)
+}
+
+function save(e) {
+    editUser()
+    modal.value.close(e)
+}
 </script>
 
 <template>
@@ -15,9 +77,8 @@ const email = localStorage.getItem('email')
             <div tabindex="0" @click="router.back()">
                 <img class="arrow" src="../../public//arrow-small-left.svg" alt="" />
             </div>
-            <div class="edit-info">
-                <button class="edit">edit</button>
-            </div>
+
+            <button class="edit" @click="modal.open">edit</button>
         </div>
         <div class="profile-image-container">
             <img src="../../public/circle-user-2.png" class="profile-pic" alt="" />
@@ -44,6 +105,50 @@ const email = localStorage.getItem('email')
                 </div>
             </div>
         </div>
+        <Modal ref="name-modal">
+            <template #header>
+                <h1 class="primary-heading">Title</h1>
+            </template>
+            <template #main>
+                <div class="firstLast">
+                    <input
+                        type="text"
+                        v-model="newFirstName"
+                        id="firstName"
+                        name="firstName"
+                        placeholder="First Name"
+                    />
+                    <input
+                        type="text"
+                        v-model="newLastName"
+                        id="lastName"
+                        name="lastName"
+                        placeholder="Last Name"
+                    />
+                </div>
+                <div class="user-info-container">
+                    <input
+                        type="email"
+                        v-model="newEmail"
+                        id="userEmail"
+                        name="userEmail"
+                        placeholder="Email"
+                        required
+                    />
+                    <input
+                        type="text"
+                        v-model="newUsername"
+                        id="username"
+                        name="username"
+                        placeholder="Username"
+                    />
+                </div>
+            </template>
+            <template #footer>
+                <button @click.stop="cancel">Cancel</button>
+                <button @click.stop="save">Save</button>
+            </template>
+        </Modal>
     </div>
 </template>
 
@@ -118,18 +223,17 @@ span:hover,
 .username {
     margin-bottom: 2rem;
 }
-
 .profile-pic {
     max-height: 200px;
 }
 
 .back-button-container {
-    width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .back-button-container div {
+    width: 250px;
     max-height: 50px;
 }
 
@@ -138,11 +242,9 @@ span:hover,
     margin-left: 2rem;
 }
 
-
 /* editing button */
 
 .edit {
-
     margin-inline: 2rem;
     border-radius: 20px;
     outline: none;
@@ -153,9 +255,11 @@ span:hover,
     color: white;
     font-size: 20px;
     font-family: var(--font-header-nav);
-
 }
 
+.profile-image-container {
+    display: flex;
+}
 
 .edit:hover {
     background-color: rgba(255, 116, 3, 0.391);
