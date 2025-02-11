@@ -1,31 +1,56 @@
 <script setup>
 import { useRouter } from 'vue-router'
-import { ref, useTemplateRef } from 'vue'
+import { ref, useTemplateRef, onMounted } from 'vue'
 import Modal from '../components/Modal.vue'
 
 const modal = useTemplateRef('name-modal')
 
 const router = useRouter()
 
-const firstName = localStorage.getItem('firstName')
-const lastName = localStorage.getItem('lastName')
-const username = localStorage.getItem('username')
-const email = localStorage.getItem('email')
+const firstName = ref()
+const lastName = ref()
+const userName = ref()
+const email = ref()
 
 const newFirstName = ref()
 const newLastName = ref()
 const newEmail = ref()
 const newUsername = ref()
 
-async function editUser() {
-    const data = {
-        email: newEmail.value || email,
-        userName: newUsername.value || username,
-        firstName: newFirstName.value || firstName,
-        lastName: newLastName.value || lastName,
+async function getUserData() {
+    const url = 'https://hap-app-api.azurewebsites.net/user'
+
+    const options = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
     }
 
-    console.log(data)
+    const response = await fetch(url, options)
+
+    if (response.status === 200) {
+        const data = await response.json()
+        console.log(data)
+        firstName.value = data.firstName
+        lastName.value = data.lastName
+        userName.value = data.userName
+        email.value = data.email
+    }
+}
+
+onMounted(() => {
+    getUserData()
+})
+
+async function editUser() {
+    const data = {
+        email: newEmail.value || email.value,
+        userName: newUsername.value || userName.value,
+        firstName: newFirstName.value || firstName.value,
+        lastName: newLastName.value || lastName.value,
+    }
 
     const url = 'https://hap-app-api.azurewebsites.net/user'
 
@@ -41,18 +66,10 @@ async function editUser() {
     const response = await fetch(url, options)
 
     if (response.status === 200) {
-        const data = await response.json()
-
-        if (data.user) {
-            localStorage.setItem('token', data.token)
-            localStorage.setItem('firstName', data.user.firstName)
-            localStorage.setItem('lastName', data.user.lastName)
-            localStorage.setItem('email', data.user.email)
-            localStorage.setItem('username', data.user.userName)
-        }
-
-        console.log(data)
-
+        localStorage.setItem('email', data.email)
+        localStorage.setItem('username', data.userName)
+        localStorage.setItem('firstName', data.firstName)
+        localStorage.setItem('lastName', data.lastName)
         router.push({
             path: '/main',
         })
@@ -97,7 +114,7 @@ function save(e) {
             <div class="data">
                 <div class="username">
                     <label for="username">Username</label>
-                    <span class="data-text">{{ username }}</span>
+                    <span class="data-text">{{ userName }}</span>
                 </div>
                 <div class="email">
                     <label for="firstName">Email</label>
