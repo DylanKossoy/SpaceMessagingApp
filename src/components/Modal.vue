@@ -65,6 +65,11 @@ function close(e) {
     border-radius: 50%;
 }
 
+header {
+    display: flex;
+    justify-content: center;
+}
+
 footer {
     display: flex;
     justify-content: center;

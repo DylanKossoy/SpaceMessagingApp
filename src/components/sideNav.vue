@@ -1,7 +1,20 @@
 <script setup>
 import { RouterLink, useRouter } from 'vue-router'
+import { ref } from 'vue'
 
 const router = useRouter()
+
+let toggleBar = ref(false);
+
+
+
+
+
+// function to toggle sidebar in and out with the button
+function toggleSidebar() {
+    toggleBar.value = !toggleBar.value
+
+}
 
 async function signOut(event) {
     event.preventDefault()
@@ -37,7 +50,7 @@ async function signOut(event) {
 
 <template>
     <div class="container">
-        <div class="nav-container">
+        <div class="nav-container" :class="{ active: toggleBar}">
             <nav class="higher">
                 <ul>
                     <li>
@@ -81,15 +94,20 @@ async function signOut(event) {
                 </ul>
             </nav>
         </div>
+        <button class="toggle-sidebar-button" @click="toggleSidebar()"  :class="{ active: toggleBar }"></button>
     </div>
 </template>
 
 <style scoped>
 .container {
     background: none;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+
 }
 
-.nav-container {
+.nav-container.active {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -99,6 +117,13 @@ async function signOut(event) {
     width: 250px;
     height: 100%;
     backdrop-filter: blur(10px);
+    opacity: 100%;
+}
+
+
+.nav-container {
+
+    display: none;
 }
 
 .nav-container ul {
@@ -148,4 +173,44 @@ li:hover {
     padding: 0;
     margin: 1rem 2rem 1rem 2rem;
 }
+
+
+
+
+/* toggling sidebar */
+
+.toggle-sidebar-button.active {
+    width: 20px;
+    height: 300px;
+    position: absolute;
+
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    outline: none;
+    border: none;
+    background-color: rgba(0, 255, 55, 0.407);
+}
+
+
+.toggle-sidebar-button {
+    width: 20px;
+    height: 300px;
+    position: absolute;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    outline: none;
+    border: none;
+    background-color: rgba(0, 255, 55, 0.407);
+
+}
+
+
+.toggle-sidebar-button:hover {
+    background-color: rgba(0, 255, 55, 0.644);
+    cursor: url('../../public/custom-cursor-click.png'), pointer;
+}
+
+
+
+
 </style>
