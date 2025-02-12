@@ -30,4 +30,11 @@ main {
     flex-direction: column;
     margin: 0;
 }
+
+
+@media (max-width: 800px) {
+    .flex {
+        flex-direction: column;
+    }
+}
 </style>

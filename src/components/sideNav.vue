@@ -4,16 +4,11 @@ import { ref } from 'vue'
 
 const router = useRouter()
 
-let toggleBar = ref(false);
-
-
-
-
+let toggleBar = ref(true)
 
 // function to toggle sidebar in and out with the button
 function toggleSidebar() {
     toggleBar.value = !toggleBar.value
-
 }
 
 async function signOut(event) {
@@ -50,7 +45,7 @@ async function signOut(event) {
 
 <template>
     <div class="container">
-        <div class="nav-container" :class="{ active: toggleBar}">
+        <div class="nav-container" :class="{ active: toggleBar }">
             <nav class="higher">
                 <ul>
                     <li>
@@ -94,7 +89,11 @@ async function signOut(event) {
                 </ul>
             </nav>
         </div>
-        <button class="toggle-sidebar-button" @click="toggleSidebar()"  :class="{ active: toggleBar }"></button>
+        <button
+            class="toggle-sidebar-button"
+            @click="toggleSidebar()"
+            :class="{ active: toggleBar }"
+        ></button>
     </div>
 </template>
 
@@ -104,7 +103,6 @@ async function signOut(event) {
     display: flex;
     flex-direction: row;
     position: relative;
-
 }
 
 .nav-container.active {
@@ -117,13 +115,11 @@ async function signOut(event) {
     width: 250px;
     height: 100%;
     backdrop-filter: blur(10px);
-    opacity: 100%;
 }
 
-
 .nav-container {
-
     display: none;
+    cursor: url('../../public/custom-cursor.png'), pointer;
 }
 
 .nav-container ul {
@@ -161,6 +157,7 @@ li {
 
 li:hover {
     cursor: url('../../public/custom-cursor-click.png'), pointer;
+    background-color: rgba(48, 52, 51, 0.159);
 }
 
 .nav-container .higher li .shift-left {
@@ -174,9 +171,6 @@ li:hover {
     margin: 1rem 2rem 1rem 2rem;
 }
 
-
-
-
 /* toggling sidebar */
 
 .toggle-sidebar-button.active {
@@ -188,9 +182,8 @@ li:hover {
     border-bottom-right-radius: 30px;
     outline: none;
     border: none;
-    background-color: rgba(0, 255, 55, 0.407);
+    background-color: rgba(0, 255, 170, 0.505);
 }
-
 
 .toggle-sidebar-button {
     width: 20px;
@@ -200,17 +193,11 @@ li:hover {
     border-bottom-right-radius: 30px;
     outline: none;
     border: none;
-    background-color: rgba(0, 255, 55, 0.407);
-
+    background-color: rgba(0, 255, 170, 0.505);
 }
-
 
 .toggle-sidebar-button:hover {
-    background-color: rgba(0, 255, 55, 0.644);
+    background-color: rgba(17, 86, 63, 0.523);
     cursor: url('../../public/custom-cursor-click.png'), pointer;
 }
-
-
-
-
 </style>

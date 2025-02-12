@@ -12,7 +12,7 @@ function open() {
     showModal.value = true
 }
 
-function close(e) {
+function close() {
     showModal.value = false
 }
 </script>
@@ -44,7 +44,7 @@ function close(e) {
     right: 0;
     background-color: rgba(0, 0, 0, 0.709);
     border-radius: 20px;
-    backdrop-filter: (5px);
+    backdrop-filter: blur(10px);
     display: flex;
     justify-content: center;
     align-items: center;
