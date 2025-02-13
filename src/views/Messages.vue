@@ -2,9 +2,27 @@
 import { ref } from 'vue'
 
 const text = ref('')
+const errorText = ref('');
+
+const textAreaInput = ref(false);
+
+
+
+const triggerShake = (field) => {
+    field.value = true
+    setTimeout(() => {
+        field.value = false
+    }, 300)
+}
 
 async function postMessage() {
-    if (text.value.length > 280) {
+    if (text.value.length > 280 || text.value.trim().length === 0) {
+        triggerShake(textAreaInput);
+        errorText.value = '* invalid *'
+        setTimeout(() => {
+            errorText.value = '';
+
+        }, 1000)
         return
     }
 
@@ -24,9 +42,14 @@ async function postMessage() {
     let response = await fetch(url, options)
 
     if (response.status === 201) {
-        const responseData = await response.json()
+
         text.value = ''
-        console.log('posted text', responseData)
+        errorText.value = 'message sent successfully';
+        setTimeout(() => {
+            errorText.value = '';
+
+        }, 1000)
+
     } else if (response.status === 400) {
         console.log('400')
     } else if (response.status === 401) {
@@ -44,8 +67,9 @@ async function postMessage() {
 
             <div class="add-message-container">
                 <label for="textArea" class="send-message-title">Send Message</label>
-                <textarea id="textArea" v-model="text"></textarea>
+                <textarea id="textArea" v-model="text" :class="{ shake: textAreaInput}"></textarea>
                 <button class="post-button" @click="postMessage()">Post Message</button>
+                <span class="style-error"> {{ errorText }}</span>
             </div>
         </div>
     </div>
@@ -77,7 +101,8 @@ async function postMessage() {
 
 /* post button */
 .post-button {
-    margin: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
     width: 150px;
     height: 40px;
     border: none;
@@ -120,4 +145,11 @@ async function postMessage() {
     padding: 1rem;
     font-size: 15px;
 }
+
+ /* span to show if message was successful or not */
+ .style-error {
+    color: white;
+    font-family: var(--font-primary);
+ }
+
 </style>
