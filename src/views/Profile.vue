@@ -26,6 +26,7 @@ async function getUserData() {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
+
     }
 
     const response = await fetch(url, options)

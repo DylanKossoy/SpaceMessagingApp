@@ -105,27 +105,30 @@ async function signOut(event) {
     position: relative;
 }
 
-.nav-container.active {
+.nav-container {
+    position: absolute;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
-    background: rgba(255, 255, 255, 0.495);
     width: 250px;
     height: 100%;
+    background: rgba(255, 255, 255, 0.495);
     backdrop-filter: blur(10px);
+    transition: transform 0.3s ease;
+    transform: translateX(-100%);
 }
 
-.nav-container {
-    display: none;
-    cursor: url('../../public/custom-cursor.png'), pointer;
+.nav-container.active {
+    transform: translateX(0);
 }
 
 .nav-container ul {
     display: flex;
     flex-direction: column;
     list-style: none;
+    padding: 0;
 }
 
 .nav-container a {
@@ -133,16 +136,10 @@ async function signOut(event) {
     justify-content: flex-start;
     align-items: center;
     width: 100%;
-    list-style: none;
     font-family: var(--font-header-nav);
     font-size: 10px;
     text-decoration: none;
     color: black;
-}
-
-.nav-container .lower ul,
-.nav-container .higher ul {
-    padding: 0;
 }
 
 li {
@@ -150,7 +147,6 @@ li {
     justify-content: flex-start;
     align-items: center;
     width: 100%;
-    list-style: none;
     font-family: var(--font-header-nav);
     font-size: 10px;
 }
@@ -167,24 +163,10 @@ li:hover {
 
 .interface-icon {
     max-height: 25px;
-    padding: 0;
-    margin: 1rem 2rem 1rem 2rem;
+    margin: 1rem 2rem;
 }
 
-/* toggling sidebar */
-
-.toggle-sidebar-button.active {
-    width: 20px;
-    height: 300px;
-    position: absolute;
-
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px;
-    outline: none;
-    border: none;
-    background-color: rgba(0, 255, 170, 0.505);
-}
-
+/* Sidebar Toggle Button */
 .toggle-sidebar-button {
     width: 20px;
     height: 300px;
@@ -196,8 +178,13 @@ li:hover {
     background-color: rgba(0, 255, 170, 0.505);
 }
 
+.toggle-sidebar-button.active {
+    background-color: rgba(0, 255, 170, 0.505);
+}
+
 .toggle-sidebar-button:hover {
     background-color: rgba(17, 86, 63, 0.523);
     cursor: url('../../public/custom-cursor-click.png'), pointer;
 }
+
 </style>
