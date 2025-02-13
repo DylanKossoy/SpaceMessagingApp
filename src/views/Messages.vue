@@ -1,67 +1,50 @@
 <script setup>
 import { ref } from 'vue'
 
-const userMessage = ref('')
-
-
-
-
-
-
-
-
-
+const text = ref('')
 
 async function postMessage() {
-
-
-
-    if(userMessage.value.length > 280) {
-        return;
+    if (text.value.length > 280) {
+        return
     }
 
-
-    const url = 'https://hap-app-api.azurewebsites.net/message';
-
-
+    const token = localStorage.getItem('token')
+    const data = { text: text.value }
+    const url = 'https://hap-app-api.azurewebsites.net/message'
     const options = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${token}`,
         },
-        body: userMessage.value,
+        body: JSON.stringify(data)
     }
 
+    console.log(data)
+    let response = await fetch(url, options)
 
-    const response = await fetch(url, options);
-
-
-
-    if(response.status === 200) {
-        console.log('posted text')
-    } else if(response.status === 400) {
+    if (response.status === 200) {
+        const data = await response.json()
+        text.value = ''
+        console.log('posted text', data)
+    } else if (response.status === 400) {
         console.log('400')
-    } else if(response.status === 401) {
+    } else if (response.status === 401) {
         console.log('401')
     } else {
         console.log('500')
     }
-
 }
-
-
 </script>
 
 <template>
     <div class="container">
-
         <div class="all-messages-container">
             <h1 class="messages-title">Messages</h1>
 
             <div class="add-message-container">
-                <label for="userMessage" class="send-message-title">Send Message</label>
-                <textarea v-model="userMessage"></textarea>
+                <label for="textArea" class="send-message-title">Send Message</label>
+                <textarea id="textArea" v-model="text"></textarea>
                 <button class="post-button" @click="postMessage()">Post Message</button>
             </div>
         </div>
@@ -69,16 +52,13 @@ async function postMessage() {
 </template>
 
 <style scoped>
-
 /* first container holding everything and taking up a third of the main width */
 .container {
-
-    display:flex;
+    display: flex;
     justify-content: center;
     align-items: flex-end;
+    cursor: url('../../public/custom-cursor.png'), pointer;
 }
-
-
 
 /* will hold the message title, input, all messages with scroll */
 .all-messages-container {
@@ -95,8 +75,6 @@ async function postMessage() {
     border-bottom-left-radius: 30px;
 }
 
-
-
 /* post button */
 .post-button {
     margin: 2rem;
@@ -107,12 +85,8 @@ async function postMessage() {
     color: white;
     background-color: var(--color-primary-orange);
     border-radius: 10px;
+    cursor: url('../../public/custom-cursor-click.png'), pointer;
 }
-
-
-
-
-
 
 /* title */
 .messages-title {
@@ -126,9 +100,6 @@ async function postMessage() {
     margin-bottom: 2rem;
 }
 
-
-
-
 /* adding messages container */
 .add-message-container {
     display: flex;
@@ -136,7 +107,6 @@ async function postMessage() {
     align-items: center;
     margin-top: 1rem;
 }
-
 
 .add-message-container textarea {
     height: 200px;
@@ -149,9 +119,5 @@ async function postMessage() {
     box-sizing: border-box;
     padding: 1rem;
     font-size: 15px;
-
 }
-
-
-
 </style>
