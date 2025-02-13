@@ -15,18 +15,18 @@ async function postMessage() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+           'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(data)
     }
 
-    console.log(data)
+
     let response = await fetch(url, options)
 
-    if (response.status === 200) {
-        const data = await response.json()
+    if (response.status === 201) {
+        const responseData = await response.json()
         text.value = ''
-        console.log('posted text', data)
+        console.log('posted text', responseData)
     } else if (response.status === 400) {
         console.log('400')
     } else if (response.status === 401) {
