@@ -112,9 +112,9 @@ async function signOut(event) {
     justify-content: space-between;
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
-    width: 250px;
+    width: 300px;
     height: 100%;
-    background: rgba(255, 255, 255, 0.495);
+    background: rgb(255, 255, 255);
     backdrop-filter: blur(10px);
     transition: transform 0.3s ease;
     transform: translateX(-100%);
@@ -175,15 +175,15 @@ li:hover {
     border-bottom-right-radius: 30px;
     outline: none;
     border: none;
-    background-color: rgba(0, 255, 170, 0.505);
+    background-color: rgba(0, 0, 0, 0.505);
 }
 
 .toggle-sidebar-button.active {
-    background-color: rgba(0, 255, 170, 0.505);
+    background-color: rgba(0, 0, 0, 0.505);
 }
 
 .toggle-sidebar-button:hover {
-    background-color: rgba(17, 86, 63, 0.523);
+    background-color: rgba(0, 0, 0, 0.279);
     cursor: url('../../public/custom-cursor-click.png'), pointer;
 }
 
