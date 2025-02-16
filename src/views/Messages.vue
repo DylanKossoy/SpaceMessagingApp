@@ -2,11 +2,9 @@
 import { ref } from 'vue'
 
 const text = ref('')
-const errorText = ref('');
+const errorText = ref('')
 
-const textAreaInput = ref(false);
-
-
+const textAreaInput = ref(false)
 
 const triggerShake = (field) => {
     field.value = true
@@ -17,11 +15,10 @@ const triggerShake = (field) => {
 
 async function postMessage() {
     if (text.value.length > 280 || text.value.trim().length === 0) {
-        triggerShake(textAreaInput);
+        triggerShake(textAreaInput)
         errorText.value = '* invalid *'
         setTimeout(() => {
-            errorText.value = '';
-
+            errorText.value = ''
         }, 1000)
         return
     }
@@ -33,23 +30,19 @@ async function postMessage() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-           'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
     }
-
 
     let response = await fetch(url, options)
 
     if (response.status === 201) {
-
         text.value = ''
-        errorText.value = 'message sent successfully';
+        errorText.value = 'message sent successfully'
         setTimeout(() => {
-            errorText.value = '';
-
+            errorText.value = ''
         }, 1000)
-
     } else if (response.status === 400) {
         console.log('400')
     } else if (response.status === 401) {
@@ -67,7 +60,7 @@ async function postMessage() {
 
             <div class="add-message-container">
                 <label for="textArea" class="send-message-title">Send Message</label>
-                <textarea id="textArea" v-model="text" :class="{ shake: textAreaInput}"></textarea>
+                <textarea id="textArea" v-model="text" :class="{ shake: textAreaInput }"></textarea>
                 <button class="post-button" @click="postMessage()">Post Message</button>
                 <span class="style-error"> {{ errorText }}</span>
             </div>
@@ -115,14 +108,17 @@ async function postMessage() {
 
 /* title */
 .messages-title {
-    color: white;
+    font-family: var(--font-header-nav);
+    font-weight: 1;
+    color: var(--color-primary-orange);
 }
 
 /* send message title */
 .send-message-title {
-    color: white;
-    font-size: 30px;
+    color: var(--color-primary-orange);
+    font-size: 20px;
     margin-bottom: 2rem;
+    font-family: var(--font-header-nav);
 }
 
 /* adding messages container */
@@ -146,12 +142,49 @@ async function postMessage() {
     font-size: 15px;
 }
 
- /* span to show if message was successful or not */
- .style-error {
+/* span to show if message was successful or not */
+.style-error {
     color: white;
     font-family: var(--font-primary);
- }
+}
 
+/* media queries */
+@media (max-width: 1500px) {
+    .all-messages-container {
+        width: 450px;
+    }
+}
+@media (max-width: 1350px) {
+    .all-messages-container {
+        width: 400px;
+    }
 
+    textarea {
+        width: 200px;
+    }
+}
+@media (max-width: 1200px) {
+    .all-messages-container {
+        width: 350px;
+    }
 
+    textarea {
+        width: 200px;
+    }
+}
+@media (max-width: 1050px) {
+    .all-messages-container {
+        width: 300px;
+    }
+
+    textarea {
+        width: 150px;
+    }
+
+    .post-button {
+        width: 100px;
+        height: 30px;
+        font-size: 10px;
+    }
+}
 </style>

@@ -2,14 +2,6 @@
 import { RouterLink } from 'vue-router'
 import Logo from './Logo.vue'
 import { ref } from 'vue'
-
-
-
-
-
-
-
-
 </script>
 
 <template>
@@ -34,8 +26,6 @@ import { ref } from 'vue'
     backdrop-filter: blur(11px);
     overflow: hidden;
     background-color: rgba(14, 13, 13, 0.093);
-
-
 }
 
 .header-nav-container {
@@ -89,14 +79,15 @@ import { ref } from 'vue'
     color: rgb(129, 125, 118);
 }
 
-
-
 /* profile container that holds profile image */
 
+/* media queries */
 
-
-
-
+@media (max-width: 1440px) {
+    .container {
+        height: 150px;
+    }
+}
 
 @media (max-width: 600px) {
     :deep(nav) {

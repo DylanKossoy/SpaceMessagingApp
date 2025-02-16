@@ -187,4 +187,14 @@ li:hover {
     cursor: url('../../public/custom-cursor-click.png'), pointer;
 }
 
+@media (max-width: 1500px) {
+    .nav-container {
+        width: 250px;
+    }
+}
+@media (max-width: 1350px) {
+    .nav-container {
+        width: 200px;
+    }
+}
 </style>
