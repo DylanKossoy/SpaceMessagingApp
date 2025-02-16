@@ -3,21 +3,15 @@ import Header from '../components/Header.vue'
 import { RouterView } from 'vue-router'
 import { ref } from 'vue'
 
-
-
-
-
-
-const username = localStorage.getItem('username');
+const username = localStorage.getItem('username')
 </script>
 
 <template>
     <Header>
-
-        <div class="header-profile-container" >
-                <img src="../../public/circle-user.png" class="userImgHeader" alt="">
-                <span class="username"> {{ username }}</span>
-            </div>
+        <div class="header-profile-container">
+            <img src="../../public/circle-user.png" class="userImgHeader" alt="" />
+            <span class="username"> {{ username }}</span>
+        </div>
     </Header>
 
     <main class="flex">
@@ -45,8 +39,6 @@ main {
     margin: 0;
 }
 
-
-
 /* profile container */
 
 .header-profile-container {
@@ -55,19 +47,15 @@ main {
     align-items: center;
 }
 
-
-
 .userImgHeader {
-    max-height: 60px;
+    max-height: 40px;
 }
-
 
 /* username font and text */
 .username {
-    font-size: 30px;
+    font-size: 20px;
     font-family: var(--font-primary);
     margin-left: 1rem;
-    color: #FF7403;
+    color: #ff7403;
 }
-
 </style>

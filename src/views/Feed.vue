@@ -1,21 +1,46 @@
 <script setup>
-import { onMounted, ref } from 'vue'
-
-const fullDate = new Date()
-
-const date = fullDate.toLocaleDateString()
-const time = fullDate.toLocaleTimeString()
-
-console.log(date)
-console.log(time)
+import { onMounted, ref, useTemplateRef } from 'vue'
 
 const cells = ref([])
-const newCells = ref(false)
 
-function toggleNewCells() {
-    newCells.value = !newCells.value
+const cellContainer = useTemplateRef('cellContainer')
+
+// this variable will change so it keeps grabbing older and older messages its going to start where it left off when it is adding
+const oldestTimeStamp = ref(null)
+
+// this will load older
+async function loadOlderCells() {
+    // check oldestTimeStamp
+
+    const lastCell = cells.value[cells.value.length - 1]
+    oldestTimeStamp.value = lastCell.updatedAt
+
+    // url with a querie string of limit 20
+    const url = `https://hap-app-api.azurewebsites.net/messages?limit=20&before=${oldestTimeStamp.value}`
+
+    const options = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    }
+
+    const response = await fetch(url, options)
+
+    if (response.status === 200) {
+        const moreOlderCells = await response.json()
+
+        cells.value = [...cells.value, ...moreOlderCells]
+        console.log(cells.value)
+    } else if (response.status === 401) {
+        console.log('Unauthorized 401')
+    } else if (response.status === 500) {
+        console.log('inter sever error 500')
+    } else {
+        console.log(response.status)
+    }
 }
-
 async function grabCells() {
     // url with a querie string of limit 20
     const url =
@@ -44,6 +69,8 @@ async function grabCells() {
 }
 
 // when component was added then it will fetch 20 messages initially
+// also going to add a scroll event listener to track the top and bottom of the cell-container
+
 onMounted(() => {
     grabCells()
 })
@@ -51,8 +78,16 @@ onMounted(() => {
 
 <template>
     <div class="container">
-        <ul class="cell-container">
-            <h1>User Feed</h1>
+        <ul class="cell-container" ref="cellContainer">
+            <div class="header-cell-container">
+                <img
+                    src="../../public/refresh.png"
+                    @click="grabCells()"
+                    class="interface-icon"
+                    alt=""
+                />
+                <h1>User Feed</h1>
+            </div>
             <li v-for="cell in cells" :key="cell.id" class="cell">
                 <div class="top-inner-cell">
                     <p class="name-property">{{ cell.senderName }}</p>
@@ -66,7 +101,7 @@ onMounted(() => {
                 </div>
             </li>
 
-            <button class="refresh-button">Refresh</button>
+            <button class="refresh-button" @click="loadOlderCells()">Load More</button>
         </ul>
     </div>
 </template>
@@ -157,11 +192,31 @@ h1 {
     width: 100px;
     height: 60px;
     border: none;
-    font-size: 15px;
+    font-size: 13px;
     font-family: var(--font-header-nav);
     color: white;
     background-color: var(--color-primary-orange);
     border-radius: 10px;
+    cursor: url('../../public/custom-cursor-click.png'), pointer;
+}
+
+/* header cell container with the refresh button */
+.header-cell-container {
+    display: flex;
+    align-items: center;
+    width: 90%;
+    justify-content: space-between;
+}
+
+/* refresh icon */
+.interface-icon {
+    max-height: 25px;
+    justify-self: flex-start;
+}
+
+.interface-icon:hover {
+    transform: rotate(360deg);
+    transition: transform 1s ease;
     cursor: url('../../public/custom-cursor-click.png'), pointer;
 }
 </style>
