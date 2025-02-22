@@ -69,7 +69,7 @@ async function grabCells() {
 }
 
 // when component was added then it will fetch 20 messages initially
-// also going to add a scroll event listener to track the top and bottom of the cell-container
+
 
 onMounted(() => {
     grabCells()
