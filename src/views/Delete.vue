@@ -56,42 +56,43 @@ const check = async () => {
 </script>
 
 <template>
-    <main>
-        <div class="delete-container">
-            <div class="back-button-container">
+    <div class="delete-container">
+        <div class="back-button-container">
             <div tabindex="0" @click="router.back()">
                 <img class="arrow" src="../../public//arrow-small-left.svg" alt="" />
             </div>
         </div>
-            <div class="message-container">
-                <h3>** You Sure About This **</h3>
-                <h4>This is Permanent</h4>
-            </div>
-            <div class="input-container">
-                <p>Enter "DELETE" to continue</p>
-                <input :class="{ shake: deleteInputValue }" type="text" placeholder="DELETE" v-model="deleteInput"/>
-                <button @click="check">Delete</button>
-            </div>
-
-            <div class="error-container">
-                <span>{{ errorText }}</span>
-            </div>
+        <div class="message-container">
+            <h3>** You Sure About This **</h3>
+            <h4>This is Permanent</h4>
         </div>
-    </main>
+        <div class="input-container">
+            <p>Enter "DELETE" to continue</p>
+            <input
+                :class="{ shake: deleteInputValue }"
+                type="text"
+                placeholder="DELETE"
+                v-model="deleteInput"
+            />
+            <button @click="check">Delete</button>
+        </div>
+
+        <div class="error-container">
+            <span>{{ errorText }}</span>
+        </div>
+    </div>
 </template>
 
 <style scoped>
+/* main container of delete account */
 .delete-container {
-    justify-content: flex-start;
     display: flex;
-
-    height: 100vh;
     flex-direction: column;
     align-items: center;
     backdrop-filter: blur(10px);
-    border-radius: 40px;
-    box-shadow: 1rem 1rem 15rem 1rem black;
-    cursor: url('../../public/custom-cursor.png'), pointer;
+    border-right: 1px solid rgba(255, 255, 255, 0.041);
+    border-left: 1px solid rgba(255, 255, 255, 0.041);
+    height: calc(100vh - 150px);
 }
 
 .message-container {

@@ -21,22 +21,25 @@ import { ref } from 'vue'
 /* main container */
 .container {
     display: flex;
-    height: 200px;
+    height: 150px;
     justify-content: space-between;
     backdrop-filter: blur(11px);
     overflow: hidden;
     background-color: rgba(14, 13, 13, 0.093);
 }
 
-.header-nav-container {
-    margin-right: 4rem;
-}
+/* whenever join or sign in */
 
 /* main -> two child containers */
 .logo-container,
 .header-nav-container {
     display: flex;
     justify-content: center;
+}
+
+/* sizing header nav container */
+.header-nav-container {
+    width: 400px;
 }
 
 .logo-container {
@@ -54,6 +57,7 @@ import { ref } from 'vue'
     color: var(--color-nav-text);
     position: relative;
     font-size: 30px;
+    margin-right: 2rem;
 }
 
 :deep(nav a::before) {

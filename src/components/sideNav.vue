@@ -50,28 +50,29 @@ async function signOut(event) {
                 <ul>
                     <li>
                         <RouterLink to="/main">
-                            <img src="../../public/home.svg" class="interface-icon" alt="" />
-                            <h1>Home</h1>
+                            <img
+                                src="../../public/house-chimney.png"
+                                class="interface-icon"
+                                alt=""
+                            />
+                            <h1 class="list-heading">Dashboard</h1>
                         </RouterLink>
                     </li>
-                    <li>
-                        <img src="../../public/search.svg" class="interface-icon" alt="" />
-                        <h1>Search</h1>
-                    </li>
+
                     <li>
                         <RouterLink to="/main/profile">
                             <img
-                                src="../../public/user.svg"
+                                src="../../public/user.png"
                                 class="interface-icon shift-left"
                                 alt=""
                             />
-                            <h1>Profile</h1>
+                            <h1 class="list-heading">User Profile</h1>
                         </RouterLink>
                     </li>
                     <li>
                         <RouterLink to="/main/delete">
-                            <img src="../../public/delete-user.svg" class="interface-icon" alt="" />
-                            <h1>Delete Account</h1>
+                            <img src="../../public/delete-user.png" class="interface-icon" alt="" />
+                            <h1 class="list-heading">Delete User</h1>
                         </RouterLink>
                     </li>
                 </ul>
@@ -79,122 +80,91 @@ async function signOut(event) {
             <nav class="lower">
                 <ul>
                     <li>
-                        <img src="../../public/signOut.png" class="interface-icon" alt="" />
-                        <h1 @click="signOut">Sign out</h1>
+                        <img src="../../public/signOutIcon.png" class="interface-icon" alt="" />
+                        <h1 class="list-heading" @click="signOut">Sign out</h1>
                     </li>
                     <li>
-                        <img src="../../public/settings.svg" class="interface-icon" alt="" />
-                        <h1>Settings</h1>
+                        <img src="../../public/settings.png" class="interface-icon" alt="" />
+                        <h1 class="list-heading">Settings</h1>
                     </li>
                 </ul>
             </nav>
         </div>
-        <button
-            class="toggle-sidebar-button"
-            @click="toggleSidebar()"
-            :class="{ active: toggleBar }"
-        ></button>
     </div>
 </template>
 
 <style scoped>
+/* full container */
 .container {
-    background: none;
     display: flex;
-    flex-direction: row;
     position: relative;
 }
 
+/* nav container filling the full container */
 .nav-container {
     position: absolute;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px;
-    width: 300px;
+    box-sizing: border-box;
+    width: 100%;
     height: 100%;
-    background: rgb(255, 255, 255);
+    padding: 1rem;
     backdrop-filter: blur(10px);
     transition: transform 0.3s ease;
     transform: translateX(-100%);
 }
 
+/* nav container is visible with the bottom left corner being at 0 */
 .nav-container.active {
     transform: translateX(0);
 }
 
+/* styling the navigation text */
 .nav-container ul {
     display: flex;
     flex-direction: column;
-    list-style: none;
     padding: 0;
+    list-style: none;
 }
 
-.nav-container a {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    width: 100%;
+/* list heading for font and color */
+.list-heading {
+    color: white;
+    font-size: 25px;
+    font-weight: 1;
     font-family: var(--font-header-nav);
-    font-size: 10px;
-    text-decoration: none;
-    color: black;
 }
 
+/* lower container of sidenav */
+.nav-container .lower {
+    margin-bottom: 1rem;
+}
+
+/* top container of sidenav */
+.nav-container .higher {
+}
+
+/* need the li items to be more visible */
+.nav-container li {
+    width: 100%;
+}
+
+.nav-container a,
 li {
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    text-decoration: none;
     width: 100%;
-    font-family: var(--font-header-nav);
-    font-size: 10px;
 }
 
 li:hover {
     cursor: url('../../public/custom-cursor-click.png'), pointer;
-    background-color: rgba(48, 52, 51, 0.159);
-}
-
-.nav-container .higher li .shift-left {
-    margin-left: 1.8rem;
-    margin-right: 2.2rem;
+    background-color: rgba(35, 39, 38, 0.336);
 }
 
 .interface-icon {
-    max-height: 25px;
+    max-height: 35px;
+    width: 35px;
     margin: 1rem 2rem;
-}
-
-/* Sidebar Toggle Button */
-.toggle-sidebar-button {
-    width: 20px;
-    height: 300px;
-    position: absolute;
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px;
-    outline: none;
-    border: none;
-    background-color: rgba(0, 0, 0, 0.505);
-}
-
-.toggle-sidebar-button.active {
-    background-color: rgba(0, 0, 0, 0.505);
-}
-
-.toggle-sidebar-button:hover {
-    background-color: rgba(0, 0, 0, 0.279);
-    cursor: url('../../public/custom-cursor-click.png'), pointer;
-}
-
-@media (max-width: 1500px) {
-    .nav-container {
-        width: 250px;
-    }
-}
-@media (max-width: 1350px) {
-    .nav-container {
-        width: 200px;
-    }
 }
 </style>

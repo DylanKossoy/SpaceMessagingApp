@@ -5,7 +5,7 @@ import SignIn from '@/views/SignIn.vue' //@ symbol starts your path at source. .
 import Main from '@/views/Main.vue'
 import Delete from '@/views/Delete.vue'
 import Feed from '@/views/Feed.vue'
-import Messages from '@/views/Messages.vue'
+import Search from '@/views/Search.vue'
 import sideNav from '@/components/sideNav.vue'
 import Profile from '@/views/Profile.vue'
 
@@ -36,7 +36,7 @@ const router = createRouter({
                     components: {
                         LeftSidebar: sideNav,
                         focus: Feed,
-                        RightSidebar: Messages,
+                        RightSidebar: Search,
                     },
                 },
                 {
@@ -44,7 +44,7 @@ const router = createRouter({
                     components: {
                         LeftSidebar: sideNav,
                         focus: Profile,
-                        RightSidebar: Messages,
+                        RightSidebar: Search,
                     },
                 },
                 {
@@ -52,7 +52,7 @@ const router = createRouter({
                     components: {
                         LeftSidebar: sideNav,
                         focus: Delete,
-                        RightSidebar: Messages,
+                        RightSidebar: Search,
                     },
                 },
             ],

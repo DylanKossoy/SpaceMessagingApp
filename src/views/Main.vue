@@ -14,29 +14,19 @@ const username = localStorage.getItem('username')
         </div>
     </Header>
 
-    <main class="flex">
-        <RouterView name="LeftSidebar" class="LeftSidebar size"></RouterView>
-        <RouterView name="focus" class="focus-view size"></RouterView>
-        <RouterView name="RightSidebar" class="RightSidebar size"></RouterView>
+    <main class="main-container">
+        <RouterView name="LeftSidebar" class="LeftSidebar"></RouterView>
+        <RouterView name="focus" class="focus-view"></RouterView>
+        <RouterView name="RightSidebar" class="RightSidebar"></RouterView>
     </main>
 </template>
 
 <style scoped>
-.flex {
-    display: flex;
-}
+.main-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
 
-main {
-    flex: 1;
     height: calc(100vh - 200px);
-}
-
-.size {
-    width: calc(100% / 3);
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    margin: 0;
 }
 
 /* profile container */
@@ -47,6 +37,7 @@ main {
     align-items: center;
 }
 
+/* user profile image icon on main header */
 .userImgHeader {
     max-height: 40px;
 }

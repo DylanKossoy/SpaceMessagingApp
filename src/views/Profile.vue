@@ -26,7 +26,6 @@ async function getUserData() {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
-
     }
 
     const response = await fetch(url, options)
@@ -92,11 +91,12 @@ function save(e) {
 <template>
     <div class="profile-container">
         <div class="back-button-container">
-            <div tabindex="0" @click="router.back()">
+            <div class="arrow-container" tabindex="0" @click="router.back()">
                 <img class="arrow" src="../../public//arrow-small-left.svg" alt="" />
             </div>
-
-            <button class="edit" @click="modal.open">edit</button>
+            <div class="edit-button-container">
+                <button class="edit" @click="modal.open">edit</button>
+            </div>
         </div>
         <div class="profile-image-container">
             <img src="../../public/circle-user-2.png" class="profile-pic" alt="" />
@@ -128,7 +128,7 @@ function save(e) {
                 <h1 class="primary-heading">Edit Profile</h1>
             </template>
             <template #main>
-                <div class="firstLast">
+                <div class="firstLastModal">
                     <input
                         type="text"
                         v-model="newFirstName"
@@ -171,97 +171,49 @@ function save(e) {
 </template>
 
 <style scoped>
+/* main container with all the content */
 .profile-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
-
-    border-radius: 40px;
     backdrop-filter: blur(10px);
-    box-shadow: 1rem 1rem 15rem 1rem black;
-    cursor: url('../../public/custom-cursor.png'), pointer;
+    border-right: 1px solid rgba(255, 255, 255, 0.041);
+    border-left: 1px solid rgba(255, 255, 255, 0.041);
+    height: calc(100vh - 150px);
 }
 
-.profile-data-container {
-    width: 70%;
-    height: 50%;
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-}
-
-.profile-data-container span {
-    height: 50px;
-    color: white;
-    outline: none;
-    border: 2px solid var(--color-primary-orange);
-    border-radius: 20px;
-    background: rgba(133, 120, 120, 0.156);
-    font-family: var(--font-header-nav);
-    box-sizing: border-box;
-    padding-left: 1rem;
-    font-size: 20px;
-}
-
-.first,
-.last,
-.username,
-.email {
-    display: flex;
-    flex-direction: column;
-}
-
-.firstLast {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-}
-
-span {
-    padding-top: 0.7rem;
-}
-
-.profile-data-container label {
-    font-size: 15px;
-    margin-bottom: 5px;
-    font-family: var(--font-header-nav);
-    color: var(--color-primary-orange);
-    cursor: url('../../public/custom-cursor.png'), pointer;
-}
-
-.firstLast span {
-    width: 200px;
-}
-
-span:hover,
-.arrow:hover {
-    cursor: url('../../public/custom-cursor-click.png'), pointer;
-}
-
-.username {
-    margin-bottom: 2rem;
-}
-.profile-pic {
-    max-height: 200px;
-}
-
+/* back button container holding back button and edit button */
 .back-button-container {
+    width: 100%;
+    min-height: 120px;
     display: flex;
-    justify-content: space-around;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.back-button-container div {
-    width: 250px;
-    max-height: 50px;
-}
-
-.back-button-container div img {
-    height: 100%;
+/* arrow icon in back button container */
+.arrow-container {
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
     margin-left: 2rem;
 }
+.arrow {
+    max-height: 70px;
+}
 
-/* editing button */
+/* edit button container */
+.edit-button-container {
+    width: 200px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 2rem;
+}
 
+/* button styling */
 .edit {
     margin-inline: 2rem;
     border-radius: 20px;
@@ -275,23 +227,131 @@ span:hover,
     font-family: var(--font-header-nav);
 }
 
+/* big profile logo in middle of screen */
 .profile-image-container {
+    width: 100%;
     display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
 }
 
-.edit:hover {
-    background-color: rgba(255, 116, 3, 0.391);
-    cursor: url('../../public/custom-cursor-click.png'), pointer;
+.profile-image-container .profile-pic {
+    height: 200px;
 }
 
-/* h1 title for modal */
-.primary-heading {
+/* info layer 3rd container below profile pic */
+.profile-data-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Ensure flexible resizing for username and email */
+.profile-data-container .data {
+    width: 100%;
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    padding-right: 4rem;
+    padding-left: 4rem;
+}
+
+/* Let username and email containers flexibly resize */
+.profile-data-container .data .username,
+.profile-data-container .data .email {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 745px; /* Ensures consistency on larger screens */
+}
+
+/* Let data-text flexibly resize */
+.profile-data-container .data .data-text {
+    margin-top: 0.3rem;
+    margin-bottom: 1.5rem;
+    flex: 1; /* Allows dynamic resizing */
+    min-width: 350px; /* Prevents shrinking too much */
+    max-width: 745px; /* Ensures a reasonable max width */
+    min-height: 55px;
     color: white;
+    outline: none;
+    border: 2px solid var(--color-primary-orange);
+    border-radius: 20px;
+    background: rgba(133, 120, 120, 0.156);
+    font-family: var(--font-header-nav);
+    box-sizing: border-box;
+    padding-left: 1rem;
+    padding-top: 0.5rem;
+    font-size: 15px;
+    position: relative;
+}
+
+/* Ensure first and last name stay aligned */
+.profile-data-container .firstLast {
+    width: 100%;
+    height: 30%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 4rem;
+}
+
+/* Consistent size for first and last name fields */
+.profile-data-container .first,
+.profile-data-container .last {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 350px; /* Ensures consistency */
+}
+
+/* data text like username first name last name and email */
+.profile-data-container .firstLast .data-text {
+    margin-top: 0.3rem;
+    width: 100%;
+    max-width: 350px;
+
+    height: 55px;
+    color: white;
+    outline: none;
+    border: 2px solid var(--color-primary-orange);
+    border-radius: 20px;
+    background: rgba(133, 120, 120, 0.156);
+    font-family: var(--font-header-nav);
+    box-sizing: border-box;
+    padding-left: 1rem;
+    padding-top: 0.5rem;
+    font-size: 15px;
+    position: relative;
+}
+
+/* username and email in data turn to column */
+.profile-data-container .data .username,
+.profile-data-container .data .email {
+    display: flex;
+    flex-direction: column;
+}
+
+/* in the firstLast container and data both take up 50% */
+.firstLast,
+.data {
+    width: 50%;
+}
+
+/* labels above spans */
+label {
+    margin-left: 1rem;
+    color: white;
+    font-family: var(--font-primary);
 }
 
 /* modal editing */
-
-.modal .firstLast {
+.modal .firstLastModal {
     display: flex;
     flex-direction: column;
 }
@@ -315,6 +375,7 @@ span:hover,
     font-size: 15px;
 }
 
+/* Modal button styling */
 .modal button {
     width: 100px;
     height: 40px;
@@ -324,12 +385,18 @@ span:hover,
     font-family: var(--font-header-nav);
     background: transparent;
     backdrop-filter: blur(5px);
-
     border: 2px solid var(--color-primary-orange);
     cursor: url('../../public/custom-cursor.png'), pointer;
 }
 
 .modal button:hover {
     background: rgba(174, 40, 40, 0.274);
+}
+
+/* primary heading in modal */
+.primary-heading {
+    color: white;
+    font-size: 30px;
+    font-family: var(--font-header-nav);
 }
 </style>

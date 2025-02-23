@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, ref, useTemplateRef } from 'vue'
+import Messages from '@/components/Messages.vue'
 
 const cells = ref([])
 
@@ -44,7 +45,7 @@ async function loadOlderCells() {
 async function grabCells() {
     // url with a querie string of limit 20
     const url =
-        'https://hap-app-api.azurewebsites.net/messages?limit=20&after=2025-02-13T06:00:00.321Z'
+        'https://hap-app-api.azurewebsites.net/messages?limit=20&after=2025-02-21T06:00:00.321Z'
 
     const options = {
         method: 'GET',
@@ -70,7 +71,6 @@ async function grabCells() {
 
 // when component was added then it will fetch 20 messages initially
 
-
 onMounted(() => {
     grabCells()
 })
@@ -88,6 +88,10 @@ onMounted(() => {
                 />
                 <h1>User Feed</h1>
             </div>
+
+            <!-- adding messages component inside feed so the message post and messages are all in the same spot -->
+            <Messages> </Messages>
+
             <li v-for="cell in cells" :key="cell.id" class="cell">
                 <div class="top-inner-cell">
                     <p class="name-property">{{ cell.senderName }}</p>
@@ -111,18 +115,18 @@ onMounted(() => {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 40px;
     backdrop-filter: blur(10px);
-    box-shadow: 1rem 1rem 15rem 1rem black;
+    border-right: 1px solid rgba(255, 255, 255, 0.041);
+    border-left: 1px solid rgba(255, 255, 255, 0.041);
 }
 
 /* going to hold all the message cells with users info */
 
 .cell-container {
     width: 95%;
-    max-height: 700px;
-    height: 95%;
-    border-radius: 20px;
+    max-height: 800px;
+    height: 100%;
+    border-radius: 10px;
     background-color: rgba(69, 69, 77, 0.25);
     display: flex;
     align-items: center;
@@ -154,6 +158,12 @@ onMounted(() => {
     box-sizing: border-box;
 }
 
+/* name property */
+.name-property {
+    box-sizing: border-box;
+    font-size: 20px;
+}
+
 /* inner cell */
 .top-inner-cell {
     display: flex;
@@ -163,8 +173,8 @@ onMounted(() => {
 
 /* date container inside inner cell */
 .top-inner-cell .date-container {
-    width: 170px;
-    font-size: 12px;
+    width: 250px;
+    font-size: 15px;
     display: flex;
     align-items: center;
     justify-content: space-between;

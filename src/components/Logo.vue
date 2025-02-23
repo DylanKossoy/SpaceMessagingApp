@@ -8,7 +8,7 @@
 
 <style scoped>
 img {
-    max-width: 125px;
+    max-width: 85px;
     transform: rotate(45deg);
 }
 

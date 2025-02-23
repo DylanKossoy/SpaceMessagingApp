@@ -31,6 +31,8 @@ body {
   --color-primary: rgba(244, 244, 244, 0.76);
   --color-nav-text: rgba(244, 244, 244, 0.76);
 
+  --color-primary-background-input: rgba(69, 69, 77, 0.25);
+
   --color-primary-bold-orange: rgb(255, 116, 3);
   --color-primary-orange: rgba(255, 116, 3, 0.596);
   --color-submit-button: rgba(255, 116, 3, 0.596);
@@ -42,8 +44,13 @@ body {
   --color-form-background: rgba(81, 74, 74, 0.158);
 }
 
+/* utils */
 .flex {
   display: flex;
+}
+
+.flex-direction-column {
+  flex-direction: column;
 }
 
 .header-nav-container nav {
