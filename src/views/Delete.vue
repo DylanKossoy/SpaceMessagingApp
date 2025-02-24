@@ -58,8 +58,8 @@ const check = async () => {
 <template>
     <div class="delete-container">
         <div class="back-button-container">
-            <div tabindex="0" @click="router.back()">
-                <img class="arrow" src="../../public//arrow-small-left.svg" alt="" />
+            <div tabindex="0" @click="router.back()" class="arrow-container">
+                <img class="arrow" src="../../public/arrow-small-left.svg" alt="" />
             </div>
         </div>
         <div class="message-container">
@@ -165,7 +165,8 @@ input:focus {
 
 .back-button-container {
     width: 100%;
-    margin: 2rem;
+    margin-inline: 2rem;
+    margin-top: 2rem;
     display: flex;
     justify-content: flex-start;
 }
@@ -183,5 +184,17 @@ input:focus {
     margin-top: 2rem;
     font-size: 20px;
     color: var(--color-error-message);
+}
+
+/* arrow size */
+
+.arrow-container {
+    height: 100px;
+    width: 100px;
+}
+
+.arrow {
+    width: 70px;
+    height: 70px;
 }
 </style>

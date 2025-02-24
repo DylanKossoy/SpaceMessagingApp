@@ -1,9 +1,13 @@
 <script setup>
 import Header from '../components/Header.vue'
 import { RouterView } from 'vue-router'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
-const username = localStorage.getItem('username')
+const username = ref(localStorage.getItem('username') || '')
+
+watch(username, (newUsername) => {
+    localStorage.setItem('username', newUsername)
+})
 </script>
 
 <template>
