@@ -180,6 +180,7 @@ function save(e) {
     border-right: 1px solid rgba(255, 255, 255, 0.041);
     border-left: 1px solid rgba(255, 255, 255, 0.041);
     height: calc(100vh - 150px);
+    box-sizing: border-box;
 }
 
 /* back button container holding back button and edit button */
@@ -242,9 +243,9 @@ function save(e) {
 /* info layer 3rd container below profile pic */
 .profile-data-container {
     width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
 }
 
 /* Ensure flexible resizing for username and email */

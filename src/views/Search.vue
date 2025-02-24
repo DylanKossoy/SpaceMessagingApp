@@ -33,7 +33,7 @@
 /* search box container */
 .search-bar-container {
     background: none;
-    width: 100%;
+
     height: 100px;
     display: flex;
     justify-content: center;

@@ -28,9 +28,9 @@ watch(username, (newUsername) => {
 <style scoped>
 .main-container {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: minmax(25vw, 1fr) minmax(50vw, 2fr) minmax(25vw, 1fr);
 
-    height: calc(100vh - 200px);
+    height: calc(100vh - 150px);
 }
 
 /* profile container */

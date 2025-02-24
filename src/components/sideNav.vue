@@ -98,6 +98,7 @@ async function signOut(event) {
 .container {
     display: flex;
     position: relative;
+    height: calc(100vh - 150px);
 }
 
 /* nav container filling the full container */
@@ -109,6 +110,7 @@ async function signOut(event) {
     box-sizing: border-box;
     width: 100%;
     height: 100%;
+
     padding: 1rem;
     backdrop-filter: blur(10px);
     transition: transform 0.3s ease;
