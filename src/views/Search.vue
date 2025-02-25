@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 
 
@@ -11,10 +11,22 @@ const allUsers = ref([])
 
 
 
+
+
 // add event listener to search bar then emit a function that shows all the possible users
 
 const searchBarInput = (event) => {
-    console.log(event.target.value)
+    const value = event.target.value.toLowerCase();
+
+    allUsers.value.forEach(user => {
+        user.isVisible = user.firstName.toLowerCase().includes(value) || user.lastName.toLowerCase().includes(value) || user.userName.toLowerCase().includes(value)
+
+    })
+
+
+
+
+
 }
 
 // function to get all users and put them into a array
@@ -33,7 +45,7 @@ async function grabAllUsers() {
 
     if (response.status === 200) {
         allUsers.value = await response.json()
-        console.log(allUsers.value)
+
 
     } else {
         console.log(response.status)
@@ -44,9 +56,11 @@ async function grabAllUsers() {
 
 
 
+onMounted(() => {
 
+    grabAllUsers();
+})
 
-grabAllUsers();
 </script>
 
 <template>
@@ -61,7 +75,7 @@ grabAllUsers();
             />
         </div>
         <div class="data-container">
-            <div class="data-cell" v-for="user in allUsers " :key="user.id">
+            <div class="data-cell" v-for="user in allUsers " :key="user.id" :class="{ hide: !user.isVisible}">
                 <div class="data-cell-user" >
                     <h5 class="user-info"><span class="label-user-info">First Name: -</span> {{ user.firstName }}</h5>
                     <h5 class="user-info"><span class="label-user-info">Last Name: -</span> {{ user.lastName }}</h5>
@@ -86,7 +100,7 @@ grabAllUsers();
 .search-container {
     backdrop-filter: blur(10px);
     height: calc(100vh - 150px);
-    padding: 2rem;
+    padding: 1rem;
     box-sizing: border-box;
 }
 
@@ -105,7 +119,7 @@ grabAllUsers();
 /* search bar in search container */
 .search-box {
     width: 100%;
-    height: 40px;
+    height: 50px;
     border: 2px solid var(--color-primary-orange);
     border-radius: 10px;
     background: rgba(133, 120, 120, 0.156);
@@ -160,7 +174,7 @@ grabAllUsers();
 
 .user-info {
     font-size: 10px;
-    color: rgba(0, 255, 0, 0.692);
+    color: rgb(255, 226, 180);
     font-family: var(--font-header-nav);
 
     margin: .25rem 0 0 1rem;
@@ -181,11 +195,10 @@ grabAllUsers();
 }
 
 
-
-
-
-
-/* media query for mac or 1440 */
+/* this will hold the hide class whenever user types this will be added to cells if they dont match */
+.hide {
+    display: none;
+}
 
 
 
