@@ -8,6 +8,7 @@ import Feed from '@/views/Feed.vue'
 import Search from '@/views/Search.vue'
 import sideNav from '@/components/sideNav.vue'
 import Profile from '@/views/Profile.vue'
+import privateMessage from '@/components/privateMessage.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -55,6 +56,15 @@ const router = createRouter({
                         RightSidebar: Search,
                     },
                 },
+                {
+                    path: '/main/privateMessage',
+                    components: {
+                        LeftSidebar: sideNav,
+                        focus: privateMessage,
+                        RightSidebar: Search,
+
+                    }
+                }
             ],
         },
         {

@@ -69,8 +69,10 @@ grabAllUsers();
                     <h5 class="user-info"><span class="label-user-info">User Id: -</span> {{ user['_id'] }}</h5>
                     <div class="data-cell-footer">
 
-
+                        <RouterLink to="/main/privateMessage">
                             <img src="../../public/paper-plane.png" alt="" class="send-message-icon" />
+
+                        </RouterLink>
 
                     </div>
                 </div>

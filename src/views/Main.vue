@@ -11,6 +11,7 @@ watch(username, (newUsername) => {
 </script>
 
 <template>
+
     <Header>
         <div class="header-profile-container">
             <img src="../../public/circle-user.png" class="userImgHeader" alt="" />
@@ -28,8 +29,7 @@ watch(username, (newUsername) => {
 <style scoped>
 .main-container {
     display: grid;
-    grid-template-columns: minmax(25vw, 1fr) minmax(50vw, 2fr) minmax(25vw, 1fr);
-
+    grid-template-columns: clamp(20vw, 25vw, 30vw) clamp(40vw, 50vw, 60vw) clamp(20vw, 25vw, 30vw);
     height: calc(100vh - 150px);
 }
 
