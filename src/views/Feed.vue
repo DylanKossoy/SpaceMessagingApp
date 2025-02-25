@@ -33,7 +33,7 @@ async function loadOlderCells() {
         const moreOlderCells = await response.json()
 
         cells.value = [...cells.value, ...moreOlderCells]
-        console.log(cells.value)
+
     } else if (response.status === 401) {
         console.log('Unauthorized 401')
     } else if (response.status === 500) {
@@ -59,7 +59,7 @@ async function grabCells() {
 
     if (response.status === 200) {
         cells.value = await response.json()
-        console.log(cells.value)
+
     } else if (response.status === 401) {
         console.log('Unauthorized 401')
     } else if (response.status === 500) {

@@ -1,20 +1,78 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+
+
+
+
+const allUsers = ref([])
+
+
+
+
+
+
+// add event listener to search bar then emit a function that shows all the possible users
+
+const searchBarInput = (event) => {
+    console.log(event.target.value)
+}
+
+// function to get all users and put them into a array
+async function grabAllUsers() {
+    const url = 'https://hap-app-api.azurewebsites.net/users'
+
+    const options = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    }
+
+    let response = await fetch(url, options)
+
+    if (response.status === 200) {
+        allUsers.value = await response.json()
+        console.log(allUsers.value)
+
+    } else {
+        console.log(response.status)
+    }
+}
+
+
+
+
+
+
+
+grabAllUsers();
+</script>
 
 <template>
     <div class="search-container">
         <div class="search-bar-container">
             <img src="../../public/search.png" alt="" class="interface-icon" />
-            <input type="search" class="search-box" placeholder="Search User..." />
+            <input
+                type="search"
+                class="search-box"
+                placeholder="Search User..."
+                @input="searchBarInput"
+            />
         </div>
         <div class="data-container">
-            <div class="data-cell">
-                <div class="data-cell-user">
-                    <h5 class="user-info">First Name</h5>
-                    <h5 class="user-info">Last Name</h5>
-                    <h5 class="user-info">Username</h5>
-                </div>
-                <div class="data-cell-footer">
-                    <img src="../../public/paper-plane.png" alt="" class="send-message-icon" />
+            <div class="data-cell" v-for="user in allUsers " :key="user.id">
+                <div class="data-cell-user" >
+                    <h5 class="user-info"><span class="label-user-info">First Name: -</span> {{ user.firstName }}</h5>
+                    <h5 class="user-info"><span class="label-user-info">Last Name: -</span> {{ user.lastName }}</h5>
+                    <h5 class="user-info"><span class="label-user-info">Userame: -</span> {{ user.userName }}</h5>
+                    <h5 class="user-info"><span class="label-user-info">User Id: -</span> {{ user['_id'] }}</h5>
+                    <div class="data-cell-footer">
+
+
+                            <img src="../../public/paper-plane.png" alt="" class="send-message-icon" />
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -68,6 +126,9 @@
     height: 600px;
     max-height: 600px;
     box-sizing: border-box;
+    overflow: auto;
+    scroll-behavior: smooth;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.041);
 }
 
 .data-container .data-cell {
@@ -77,6 +138,7 @@
     display: flex;
     align-items: flex-end;
     box-sizing: border-box;
+    margin-bottom: .5rem;
 }
 
 .data-cell-footer {
@@ -88,13 +150,24 @@
 .data-cell-user {
     width: 400px;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+
 }
 
 .user-info {
-    font-size: 20px;
-    color: white;
-    margin: 1rem;
+    font-size: 15px;
+    color: var(--color-primary-orange);
+    font-family: var(--font-header-nav);
+
+    margin: .25rem 0 0 1rem;
     box-sizing: border-box;
+}
+
+/* label user info like first name: last name: username: etc */
+.label-user-info {
+    font-size: 15px;
+    color: white;
 }
 
 /* paper plane */
