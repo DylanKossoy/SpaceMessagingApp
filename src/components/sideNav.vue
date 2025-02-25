@@ -133,7 +133,7 @@ async function signOut(event) {
 /* list heading for font and color */
 .list-heading {
     color: white;
-    font-size: 25px;
+    font-size: 17px;
     font-weight: 1;
     font-family: var(--font-header-nav);
 }
@@ -165,8 +165,8 @@ li:hover {
 }
 
 .interface-icon {
-    max-height: 35px;
-    width: 35px;
+    max-height: 30px;
+    width: 30px;
     margin: 1rem 2rem;
 }
 </style>

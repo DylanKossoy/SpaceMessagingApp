@@ -105,11 +105,11 @@ grabAllUsers();
 /* search bar in search container */
 .search-box {
     width: 100%;
-    height: 60px;
+    height: 40px;
     border: 2px solid var(--color-primary-orange);
     border-radius: 10px;
     background: rgba(133, 120, 120, 0.156);
-    font-size: 17px;
+    font-size: 15px;
     color: white;
     padding: 1rem;
     padding-left: 3rem;
@@ -118,15 +118,15 @@ grabAllUsers();
 
 /* interface icon */
 .interface-icon {
-    max-height: 25px;
+    max-height: 20px;
     position: absolute;
     left: 3%;
 }
 
 /* data cell container */
 .data-container {
-    height: 600px;
-    max-height: 600px;
+    height: 700px;
+    max-height: 700px;
     box-sizing: border-box;
     overflow: auto;
     scroll-behavior: smooth;
@@ -136,10 +136,11 @@ grabAllUsers();
 .data-container .data-cell {
     border: 2px solid var(--color-primary-orange);
     border-radius: 10px;
-    height: 150px;
+    height: 130px;
     display: flex;
+    padding-top: .5rem;
     align-items: flex-end;
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
     margin-bottom: .5rem;
 }
 
@@ -158,8 +159,8 @@ grabAllUsers();
 }
 
 .user-info {
-    font-size: 15px;
-    color: var(--color-primary-orange);
+    font-size: 10px;
+    color: rgba(0, 255, 0, 0.692);
     font-family: var(--font-header-nav);
 
     margin: .25rem 0 0 1rem;
@@ -168,7 +169,7 @@ grabAllUsers();
 
 /* label user info like first name: last name: username: etc */
 .label-user-info {
-    font-size: 15px;
+    font-size: 12px;
     color: white;
 }
 
@@ -178,4 +179,14 @@ grabAllUsers();
     max-width: 25px;
     margin: 1rem;
 }
+
+
+
+
+
+
+/* media query for mac or 1440 */
+
+
+
 </style>
