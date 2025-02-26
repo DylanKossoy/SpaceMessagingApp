@@ -1,5 +1,11 @@
-<script setup></script>
+<script setup>
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
+
+const userId = route.params.userId
+console.log(userId)
+</script>
 
 <template>
     <div class="message-container">
@@ -7,21 +13,14 @@
         <div class="lower-post-container">
             <div class="friends-menu"></div>
             <div class="send-message-container">
-                <textArea class="textArea" placeholder="Send Message...">
-
-                </textArea>
-                <img src="../../public/paper-plane.png" class="paper-plane" alt="">
-
+                <textarea class="textArea" placeholder="Send Message..."></textarea>
+                <img src="../../public/paper-plane.png" class="paper-plane" alt="" />
             </div>
         </div>
-
     </div>
 </template>
 
-
-
 <style scoped>
-
 /* main private message container */
 .message-container {
     display: flex;
@@ -35,12 +34,11 @@
     padding: 1rem;
 }
 
-
 .privateMessage-container {
     width: 900px;
     height: 500px;
     border: 2px solid var(--color-primary-orange);
-    border-bottom: none;
+    border-bottom: 3px solid wheat;
     border-radius: 10px;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
@@ -48,28 +46,24 @@
     box-sizing: border-box;
 }
 
-
 /* lower post container is the message and friends menu area */
-.lower-post-container  {
+.lower-post-container {
     width: 900px;
     height: 200px;
 
     display: flex;
     position: relative;
-
 }
 
 .lower-post-container .friends-menu {
     width: 225px;
     height: 100%;
-    background-color:white;
+    background-color: wheat;
     box-sizing: border-box;
     border-bottom-left-radius: 10px;
     border-bottom: 2px solid var(--color-primary-orange);
     border-left: 2px solid var(--color-primary-orange);
 }
-
-
 
 /* text area that will cover 75% */
 .textArea {
@@ -85,10 +79,7 @@
     border-left: none;
     font-family: var(--font-header-nav);
     border-bottom-right-radius: 10px;
-
-
 }
-
 
 /* paper plane that will send private message within the textArea */
 .lower-post-container .paper-plane {
@@ -97,7 +88,22 @@
     right: 5%;
 }
 
+/* media querie for mac */
+@media screen and (max-width: 1600px) {
+    .privateMessage-container {
+        width: 700px;
+    }
 
+    .lower-post-container {
+        width: 700px;
+    }
 
+    .textArea {
+        width: 500px;
+    }
 
+    .friends-menu {
+        width: 125px;
+    }
+}
 </style>

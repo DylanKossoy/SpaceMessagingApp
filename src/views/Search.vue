@@ -1,35 +1,34 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-
-
-
+import { ref, computed, onMounted } from 'vue'
 
 const allUsers = ref([])
-
-
-
-
-
-
-
+const searchTerm = ref('')
+const toggleVisible = ref(false)
 
 // add event listener to search bar then emit a function that shows all the possible users
-
 const searchBarInput = (event) => {
-    const value = event.target.value.toLowerCase();
+    searchTerm.value = event.target.value.toLowerCase()
 
-    allUsers.value.forEach(user => {
-        user.isVisible = user.firstName.toLowerCase().includes(value) || user.lastName.toLowerCase().includes(value) || user.userName.toLowerCase().includes(value)
-
-    })
-
-
-
-
-
+    if (!searchTerm.value) {
+        toggleVisible.value = false
+    } else {
+        toggleVisible.value = true
+    }
 }
 
+// make it a computed function
+const filteredUsers = computed(() => {
+    return allUsers.value.filter((user) => {
+        return (
+            user.firstName.toLowerCase().includes(searchTerm.value) ||
+            user.lastName.toLowerCase().includes(searchTerm.value) ||
+            user.userName.toLowerCase().includes(searchTerm.value)
+        )
+    })
+})
+
 // function to get all users and put them into a array
+
 async function grabAllUsers() {
     const url = 'https://hap-app-api.azurewebsites.net/users'
 
@@ -45,22 +44,14 @@ async function grabAllUsers() {
 
     if (response.status === 200) {
         allUsers.value = await response.json()
-
-
     } else {
         console.log(response.status)
     }
 }
 
-
-
-
-
 onMounted(() => {
-
-    grabAllUsers();
+    grabAllUsers()
 })
-
 </script>
 
 <template>
@@ -74,20 +65,34 @@ onMounted(() => {
                 @input="searchBarInput"
             />
         </div>
-        <div class="data-container">
-            <div class="data-cell" v-for="user in allUsers " :key="user.id" :class="{ hide: !user.isVisible}">
-                <div class="data-cell-user" >
-                    <h5 class="user-info"><span class="label-user-info">First Name: -</span> {{ user.firstName }}</h5>
-                    <h5 class="user-info"><span class="label-user-info">Last Name: -</span> {{ user.lastName }}</h5>
-                    <h5 class="user-info"><span class="label-user-info">Userame: -</span> {{ user.userName }}</h5>
-                    <h5 class="user-info"><span class="label-user-info">User Id: -</span> {{ user['_id'] }}</h5>
+        <div class="data-container" v-if="toggleVisible">
+            <div
+                class="data-cell"
+                v-for="user in filteredUsers"
+                :key="user.id"
+                :class="{ hide: !user.isVisible }"
+            >
+                <div class="data-cell-user">
+                    <h5 class="user-info">
+                        <span class="label-user-info">First Name: -</span> {{ user.firstName }}
+                    </h5>
+                    <h5 class="user-info">
+                        <span class="label-user-info">Last Name: -</span> {{ user.lastName }}
+                    </h5>
+                    <h5 class="user-info">
+                        <span class="label-user-info">Userame: -</span> {{ user.userName }}
+                    </h5>
+                    <h5 class="user-info">
+                        <span class="label-user-info">User Id: -</span> {{ user['_id'] }}
+                    </h5>
                     <div class="data-cell-footer">
-
-                        <RouterLink to="/main/privateMessage">
-                            <img src="../../public/paper-plane.png" alt="" class="send-message-icon" />
-
+                        <RouterLink :to="`/main/privateMessage/${user['_id']}`">
+                            <img
+                                src="../../public/paper-plane.png"
+                                alt=""
+                                class="send-message-icon"
+                            />
                         </RouterLink>
-
                     </div>
                 </div>
             </div>
@@ -152,10 +157,10 @@ onMounted(() => {
     border-radius: 10px;
     height: 130px;
     display: flex;
-    padding-top: .5rem;
+    padding-top: 0.5rem;
     align-items: flex-end;
     /* box-sizing: border-box; */
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
 }
 
 .data-cell-footer {
@@ -169,7 +174,6 @@ onMounted(() => {
     height: 100%;
     display: flex;
     flex-direction: column;
-
 }
 
 .user-info {
@@ -177,7 +181,7 @@ onMounted(() => {
     color: rgb(255, 226, 180);
     font-family: var(--font-header-nav);
 
-    margin: .25rem 0 0 1rem;
+    margin: 0.25rem 0 0 1rem;
     box-sizing: border-box;
 }
 
@@ -194,12 +198,8 @@ onMounted(() => {
     margin: 1rem;
 }
 
-
 /* this will hold the hide class whenever user types this will be added to cells if they dont match */
 .hide {
     display: none;
 }
-
-
-
 </style>

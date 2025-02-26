@@ -243,6 +243,7 @@ function save(e) {
 /* info layer 3rd container below profile pic */
 .profile-data-container {
     width: 100%;
+
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
@@ -399,5 +400,12 @@ label {
     color: white;
     font-size: 30px;
     font-family: var(--font-header-nav);
+}
+
+/* media query */
+@media (max-width: 1600px) {
+    .profile-pic {
+        max-height: 140px;
+    }
 }
 </style>

@@ -57,14 +57,14 @@ const router = createRouter({
                     },
                 },
                 {
-                    path: '/main/privateMessage',
+                    path: '/main/privateMessage/:userId',
                     components: {
                         LeftSidebar: sideNav,
                         focus: privateMessage,
                         RightSidebar: Search,
-
-                    }
-                }
+                    },
+                    props: true,
+                },
             ],
         },
         {
