@@ -56,7 +56,7 @@ import { ref } from 'vue'
     text-decoration: none;
     color: var(--color-nav-text);
     position: relative;
-    font-size: 30px;
+    font-size: 25px;
     margin-right: 2rem;
 }
 

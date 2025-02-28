@@ -61,6 +61,8 @@ async function createUserJoin(firstName, lastName, username, password, email) {
         localStorage.setItem('lastName', data.user.lastName)
         localStorage.setItem('email', data.user.email)
         localStorage.setItem('username', data.user.userName)
+        localStorage.setItem('id', data.user['_id'])
+
 
         console.log(data)
 

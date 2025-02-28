@@ -5,6 +5,14 @@ const allUsers = ref([])
 const searchTerm = ref('')
 const toggleVisible = ref(false)
 
+
+
+
+function clearSearch() {
+    searchTerm.value = ''
+    toggleVisible.value = false
+}
+
 // add event listener to search bar then emit a function that shows all the possible users
 const searchBarInput = (event) => {
     searchTerm.value = event.target.value.toLowerCase()
@@ -63,6 +71,8 @@ onMounted(() => {
                 class="search-box"
                 placeholder="Search User..."
                 @input="searchBarInput"
+                v-model="searchTerm"
+
             />
         </div>
         <div class="data-container" v-if="toggleVisible">
@@ -86,7 +96,10 @@ onMounted(() => {
                         <span class="label-user-info">User Id: -</span> {{ user['_id'] }}
                     </h5>
                     <div class="data-cell-footer">
-                        <RouterLink :to="`/main/privateMessage/${user['_id']}`">
+                        <RouterLink :to="{
+                            path: `/main/privateMessage/${user['_id']}`,
+                            query: {firstName: user.firstName, lastName: user.lastName, userName: user.userName}
+                        }" @click="clearSearch()">
                             <img
                                 src="../../public/paper-plane.png"
                                 alt=""

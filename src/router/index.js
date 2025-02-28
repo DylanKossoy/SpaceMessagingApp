@@ -62,6 +62,7 @@ const router = createRouter({
                         LeftSidebar: sideNav,
                         focus: privateMessage,
                         RightSidebar: Search,
+
                     },
                     props: true,
                 },
