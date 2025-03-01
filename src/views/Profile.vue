@@ -32,7 +32,7 @@ async function getUserData() {
 
     if (response.status === 200) {
         const data = await response.json()
-        console.log(data)
+
         firstName.value = data.firstName
         lastName.value = data.lastName
         userName.value = data.userName

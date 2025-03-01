@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, onMounted, watch, nextTick } from 'vue'
 
 const privateMessageText = ref('')
 
@@ -13,8 +13,12 @@ const routerRoute = useRouter()
 
 const userId = route.params.userId
 
-console.log(route.query.firstName);
 
+watch(route, async () => {
+    allMessages.value = []
+    privateMessageText.value = ''
+    await getPrivateConvo()
+})
 
 
 async function scrollToBottom() {
@@ -28,6 +32,8 @@ onMounted(() => {
     getPrivateConvo()
 
 })
+
+
 
 console.log(localStorage.getItem('id'))
 
@@ -50,6 +56,7 @@ async function getPrivateConvo() {
 
         // this will make the messages seem like they are updating upwards
         allMessages.value = [...allMessages.value].reverse()
+        console.log('working')
         scrollToBottom()
     } else {
         console.log(response.status)
@@ -105,7 +112,6 @@ async function postPrivateMessage() {
             <div class="convo-private-container" ref="privateConvoContainer">
                 <div class="privateMessages" v-for="message in allMessages" :key="message.id">
 
-                    <div class="">{{ console.log(message) }}</div>
 
 
                     <!-- this is actually going to be for other user thats sending to me -->
@@ -223,6 +229,10 @@ async function postPrivateMessage() {
     border-bottom: 1px solid rgba(255, 255, 255, 0.041);
 }
 
+.refresh-icon:hover {
+    transform: rotate(360deg);
+}
+
 .refresh-container {
     display: flex;
     justify-content: center;
@@ -232,6 +242,7 @@ async function postPrivateMessage() {
     padding: 1rem;
     box-sizing: border-box;
     border-bottom: 1px solid rgba(255, 255, 255, 0.041);
+    transition: transform 1s ease;
 }
 
 .name-container {
@@ -262,7 +273,7 @@ async function postPrivateMessage() {
     max-width: 400px;
     max-height: 400px;
     max-height: fit-content;
-    background-color: var(--color-primary-orange);
+    background-color: purple;
     padding-left: 1rem;
     padding-block: 0.25rem;
     margin-left: 2px;
@@ -280,7 +291,7 @@ async function postPrivateMessage() {
     width: 400px;
     max-width: 400px;
     max-height: 400px;
-    background-color: purple;
+    background-color: var(--color-primary-orange);
     padding-left: 1rem;
 
     padding-block: 0.25rem;

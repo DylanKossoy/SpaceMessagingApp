@@ -44,6 +44,7 @@ async function signIn(email, password) {
 
         localStorage.setItem('token', data.token)
         localStorage.setItem('firstName', data.user.firstName)
+        localStorage.setItem('username', data.user.userName)
 
         router.push({
             path: '/main',
