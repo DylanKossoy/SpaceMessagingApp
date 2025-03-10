@@ -13,27 +13,22 @@ const routerRoute = useRouter()
 
 const userId = route.params.userId
 
-
 watch(route, async () => {
     allMessages.value = []
     privateMessageText.value = ''
     await getPrivateConvo()
 })
 
-
 async function scrollToBottom() {
     await nextTick()
-    if(privateConvoContainer.value) {
-        privateConvoContainer.value.scrollTop = privateConvoContainer.value.scrollHeight;
+    if (privateConvoContainer.value) {
+        privateConvoContainer.value.scrollTop = privateConvoContainer.value.scrollHeight
     }
 }
 
 onMounted(() => {
     getPrivateConvo()
-
 })
-
-
 
 console.log(localStorage.getItem('id'))
 
@@ -111,9 +106,6 @@ async function postPrivateMessage() {
 
             <div class="convo-private-container" ref="privateConvoContainer">
                 <div class="privateMessages" v-for="message in allMessages" :key="message.id">
-
-
-
                     <!-- this is actually going to be for other user thats sending to me -->
                     <div class="message-cellLocal" v-if="message.senderId === userId">
                         <div class="local-user">
@@ -121,7 +113,6 @@ async function postPrivateMessage() {
                             <p class="message">{{ message.text }}</p>
                         </div>
                     </div>
-
 
                     <!-- this will be my messages and cell box -->
                     <div class="message-cellUser" v-else>
@@ -303,7 +294,6 @@ async function postPrivateMessage() {
     font-family: var(--font-header-nav);
     color: white;
     align-self: flex-end;
-
 }
 
 /* in the message -cells the p tags */
@@ -326,8 +316,6 @@ async function postPrivateMessage() {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-
-
 }
 
 /* convo-container making sure */
@@ -335,8 +323,6 @@ async function postPrivateMessage() {
     width: 100%;
     max-height: 400px;
     overflow-y: auto;
-
-
 }
 
 /* media querie for mac */
@@ -350,7 +336,7 @@ async function postPrivateMessage() {
     }
 
     .textArea {
-        width: 500px;
+        width: 700px;
     }
 
     .friends-menu {
