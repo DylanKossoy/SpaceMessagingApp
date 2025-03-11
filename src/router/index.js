@@ -17,20 +17,24 @@ const router = createRouter({
             path: '/',
             name: 'home',
             component: Home,
+            meta: { authRequired: false },
         },
         {
             path: '/join',
             name: 'join',
             component: Join,
+            meta: { authRequired: false },
         },
         {
             path: '/signin',
             name: 'signin',
             component: SignIn,
+            meta: { authRequired: false }
         },
         {
             path: '/main',
             component: Main,
+            meta: { authRequired: true },
             children: [
                 {
                     path: '',
@@ -39,6 +43,7 @@ const router = createRouter({
                         focus: Feed,
                         RightSidebar: Search,
                     },
+                    meta: { authRequired: true },
                 },
                 {
                     path: '/main/profile',
@@ -47,6 +52,7 @@ const router = createRouter({
                         focus: Profile,
                         RightSidebar: Search,
                     },
+                    meta: { authRequired: true },
                 },
                 {
                     path: '/main/delete',
@@ -55,6 +61,7 @@ const router = createRouter({
                         focus: Delete,
                         RightSidebar: Search,
                     },
+                    meta: { authRequired: true }
                 },
                 {
                     path: '/main/privateMessage/:userId',
@@ -65,13 +72,9 @@ const router = createRouter({
 
                     },
                     props: true,
+                    meta: { authRequired: true }
                 },
             ],
-        },
-        {
-            path: '/delete',
-            name: 'delete',
-            component: Delete,
         },
     ],
 })
