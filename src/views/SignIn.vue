@@ -2,9 +2,11 @@
 import Header from '@/components/Header.vue'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
+import { useUserStore } from '../stores/user'
 import emailValidator from 'email-validator'
 
 const router = useRouter()
+const userStore = useUserStore()
 
 const validText = ref('***')
 const errorText = ref('')
@@ -45,6 +47,9 @@ async function signIn(email, password) {
         localStorage.setItem('token', data.token)
         localStorage.setItem('firstName', data.user.firstName)
         localStorage.setItem('username', data.user.userName)
+
+        userStore.setUser(data)
+        console.log(userStore)
 
         router.push({
             path: '/main',

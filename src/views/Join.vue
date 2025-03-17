@@ -2,9 +2,12 @@
 import { ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import emailValidator from 'email-validator'
+
+import { useUserStore } from '../stores/user'
 import Header from '../components/Header.vue'
 
 const router = useRouter()
+const userStore = useUserStore()
 
 // Reactive state variables for toggling messages
 const errorText = ref('')
@@ -63,6 +66,8 @@ async function createUserJoin(firstName, lastName, username, password, email) {
         localStorage.setItem('username', data.user.userName)
         localStorage.setItem('id', data.user['_id'])
 
+        userStore.setUser(data)
+        console.log('user store data = ', userStore)
 
         console.log(data)
 

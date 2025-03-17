@@ -29,7 +29,7 @@ const router = createRouter({
             path: '/signin',
             name: 'signin',
             component: SignIn,
-            meta: { authRequired: false }
+            meta: { authRequired: false },
         },
         {
             path: '/main',
@@ -61,7 +61,7 @@ const router = createRouter({
                         focus: Delete,
                         RightSidebar: Search,
                     },
-                    meta: { authRequired: true }
+                    meta: { authRequired: true },
                 },
                 {
                     path: '/main/privateMessage/:userId',
@@ -69,10 +69,13 @@ const router = createRouter({
                         LeftSidebar: sideNav,
                         focus: privateMessage,
                         RightSidebar: Search,
-
                     },
                     props: true,
-                    meta: { authRequired: true }
+                    meta: { authRequired: true },
+                },
+                {
+                    path: '/:pathMatch(.*)*',
+                    redirect: '/',
                 },
             ],
         },
